@@ -145,7 +145,6 @@ public class AdminController implements Initializable {
     }
 
     private void postaviTabelu() {
-
         maticniBrojKolona.setCellValueFactory(new PropertyValueFactory<>("JMBG"));
 
         imeKolona.setCellValueFactory(new PropertyValueFactory<>("ime"));

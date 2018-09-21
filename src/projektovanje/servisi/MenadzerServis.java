@@ -33,7 +33,7 @@ public class MenadzerServis {
         DTOProjekcija dtoProjekcija = new DTOProjekcija(projekcija);
         try {
             konekcija.os.writeObject(new String("ADD_PROJECTION"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoProjekcija);
                 if (((String) konekcija.is.readObject()).equals("OK")) {
                     return true;
@@ -53,7 +53,7 @@ public class MenadzerServis {
         DTOProjekcija dtoProjekcija = new DTOProjekcija(projekcija);
         try {
             konekcija.os.writeObject(new String("UPDATE_PROJECTION"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoProjekcija);
                 if (((String) konekcija.is.readObject()).equals("OK")) {
                     return true;
@@ -81,15 +81,15 @@ public class MenadzerServis {
         return projekcije;
     }
     
-    public boolean dodajSalu(Integer idSale, Integer brojVrsta, Integer brojKolona, List<Sjediste> sjedista) {
+    public static boolean dodajSalu(Integer idSale, Integer brojVrsta, Integer brojKolona, List<Sjediste> sjedista) {
         Sala sala = new Sala(idSale,brojVrsta,brojKolona,sjedista);
       
         DTOSala dtoSala = new DTOSala(sala);
         try {
             konekcija.os.writeObject(new String("ADD_MOVIE_HALL"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoSala);
-                if (((String) konekcija.is.readObject()).equals("OK")) {
+                if (((String) konekcija.is.readObject()).startsWith("OK")) {
                     return true;
                 }
             }
@@ -119,10 +119,16 @@ public class MenadzerServis {
       
         DTOFilm dtoFilm=new DTOFilm(film);
         try {
+             System.out.println(" TU sam");
             konekcija.os.writeObject(new String("ADD_MOVIE"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            String odg=(String) konekcija.is.readObject();
+            if (odg.equals("WHICHONE")) {
+                System.out.println(odg);
                 konekcija.os.writeObject(dtoFilm);
-                if (((String) konekcija.is.readObject()).equals("OK")) {
+                System.out.println("projektovanje.servisi.MenadzerServis.dodajFilm()");
+                String odgovor=(String)konekcija.is.readObject();
+                 System.out.println(odgovor);
+                if (odgovor.startsWith("OK")) {             
                     return true;
                 }
             }

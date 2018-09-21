@@ -68,8 +68,10 @@ public class RacunovodjaServis {
 
         ArrayList<DTOZaposleni> listaPlata = new ArrayList<>();
         try {
-            konekcija.os.writeObject(new String("LIST_PAYMENT"));
+            konekcija.os.writeObject(new String("LIST_PAYMENTS"));
+   
             listaPlata = (ArrayList<DTOZaposleni>) konekcija.is.readObject();
+            System.out.println(listaPlata);
         } catch (IOException ex) {
             Logger.getLogger(RacunovodjaServis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

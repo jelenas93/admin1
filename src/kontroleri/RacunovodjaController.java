@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,13 +22,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import multipleksadmin.AlertHelper;
 import multipleksadmin.MojaPlata;
 import projektovanje.dto.DTOPlata;
@@ -46,7 +52,7 @@ public class RacunovodjaController implements Initializable {
 
     @FXML
     private TableView<MojaPlata> tabelaPlata;
-    
+
     @FXML
     private TableColumn<MojaPlata, String> imeKolona;
 
@@ -133,6 +139,7 @@ public class RacunovodjaController implements Initializable {
 
     @FXML
     private ScrollPane robaScrool;
+    List<DTOZaposleni> bezPlate = new ArrayList<>();
 
     @FXML
     void dodajFakturuStisak(ActionEvent event) {
@@ -155,19 +162,26 @@ public class RacunovodjaController implements Initializable {
     }
 
     @FXML
-    void dodajPlatuStisak(ActionEvent event) {
-       
-        ArrayList<DTOZaposleni> listaSvih=AdministratorServis.prikaziZaposlene();
-        for(DTOZaposleni zaposleni:listaSvih){
-            if(zaposleni.getZaposleni().getPlata().getIDPlate()==1){
-            //    bezPlate.add(zaposleni);
+    void dodajPlatuStisak(ActionEvent event) throws IOException {
+
+        List<DTOZaposleni> listaSvih = RacunovodjaServis.pregledajListuPlata();
+        for (DTOZaposleni zaposleni : listaSvih) {
+            if (zaposleni.getZaposleni().getPlata().getIDPlate() == 1) {
+                bezPlate.add(zaposleni);
             }
         }
+        PlataController.listaZaposlenih = bezPlate;
+        Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/plata.fxml"));
+        Scene korisnikScena = new Scene(korisnikView);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(korisnikScena);
+        window.centerOnScreen();
+        window.show();
     }
 
     @FXML
     void izmjeniPlatuStisak(ActionEvent event) {
-      
+
     }
 
     @FXML
@@ -175,37 +189,31 @@ public class RacunovodjaController implements Initializable {
 
     }
 
-  
     @FXML
     void prikazTabele(List<DTOZaposleni> listaZaposlenih) {
-      /*  
+        
         ObservableList<DTOZaposleni> lista = FXCollections.observableArrayList();
         for (DTOZaposleni zaposleni : listaZaposlenih) {
             lista.add(zaposleni);
         }
-        tabelaPlata = new TableView<>();
-        TableColumn imeKolona = new TableColumn("Ime");
-        // imeKolona.setMinWidth(200);
+
         imeKolona.setCellValueFactory(new PropertyValueFactory<>("Ime"));
-        TableColumn prezimeKolona = new TableColumn("Prezime");
-        // prezimeKolona.setMinWidth(200);
+        
         prezimeKolona.setCellValueFactory(new PropertyValueFactory<>("Prezime"));
-        TableColumn brutoKolona = new TableColumn("Bruto");
-        // brutoKolona.setMinWidth(200);
+    
         brutoKolona.setCellValueFactory(new PropertyValueFactory<>("Bruto"));
-        TableColumn netoKolona = new TableColumn("Neto");
-        // brutoKolona.setMinWidth(200);
+       
         netoKolona.setCellValueFactory(new PropertyValueFactory<>("Neto"));
-        TableColumn plataKolona = new TableColumn("Plata");
-        // brutoKolona.setMinWidth(200);
+      
         plataKolona.setCellValueFactory(new PropertyValueFactory<>("Plata"));
-        tabelaPlata.setItems(lista);
-       */
+        //tabelaPlata.getItems().add(e)
+        
 
     }
-    /*
+
+   /*
      public ObservableList<MojaPlata> getMojaPlata() {
-      /*  List<DTOZaposleni> listaZaposlenihSaPlatom = RacunovodjaServis.pregledajListuPlata();
+        List<DTOZaposleni> listaZaposlenihSaPlatom = RacunovodjaServis.pregledajListuPlata();
 
         List<MojaPlata> listaMoja = new ArrayList<>();
         for (DTOZaposleni zaposleni : listaZaposlenihSaPlatom) {
@@ -264,9 +272,11 @@ public class RacunovodjaController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        sakrijPodatkeFaktura();
-        List<DTOZaposleni> listaZaposlenih = RacunovodjaServis.pregledajListuPlata();
+        //sakrijPodatkeFaktura();
+       /* List<DTOZaposleni> listaZaposlenih=new ArrayList<>();
+        listaZaposlenih = RacunovodjaServis.pregledajListuPlata();
         prikazTabele(listaZaposlenih);
+        List<DTOZaposleni> listaSvih = AdministratorServis.prikaziZaposlene();*/
     }
 
 }

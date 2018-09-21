@@ -1,11 +1,13 @@
 package kontroleri;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import multipleksadmin.AlertHelper;
 import projektovanje.bin.film.Zanr;
+import projektovanje.bin.sala.Sala;
+import projektovanje.bin.sala.Sjediste;
 import projektovanje.bin.zaposleni.Zaposleni;
 import projektovanje.dto.DTOFilm;
 import projektovanje.dto.DTOMenadzer;
@@ -65,6 +69,9 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private JFXButton obrisiFilmButton;
+
+    @FXML
+    private JFXCheckBox akcija, horor, triler;
 
     //Sala
     @FXML
@@ -142,7 +149,7 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private JFXButton prikazPonudaButton;
-    
+
     private List<DTOZaposleni> listaZaposlenih;
 
     @FXML
@@ -152,29 +159,40 @@ public class MenadzerController implements Initializable {
             AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste unijeli sve podatke. ");
 
         } else {
-              try {
-
-            if (Integer.parseInt(trajanjeFilmaField.getText()) < 0) {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", "Film mora trajati bar 1 minutu. ");
-                return;
-                
-            } else if (nadjiZaposlenog(id) != null) {
-                System.out.println("kontroleri.MenadzerController.sacuvajFilmStisak()");
-                List<Zanr> zanrovi = null;
-              
-                    boolean odgovor = MenadzerServis.dodajFilm(id, nadjiZaposlenog(id), nazivFilmaField.getText(), Integer.parseInt(trajanjeFilmaField.getText()), opisFilmaArea.getText(), trejlerFilmaField.getText(), tipFilma.getSelectionModel().getSelectedItem(), zanrovi);
-                    if (odgovor) {
-                        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Uspjesno ste dodali novi film !");
-                        setujSveNaPrazno();
-                        return;
-                    }
-               
-            } } catch (NumberFormatException e) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", "Trajanje filma mora biti broj !");
+            try {
+                if (Integer.parseInt(trajanjeFilmaField.getText()) < 0) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", "Film mora trajati bar 1 minutu. ");
                     return;
                 }
-        }
+                System.out.println("kontroleri.MenadzerController.sacuvajFilmStisak()");
+                List<Zanr> zanrovi = new ArrayList<>();
+                if (horor.isSelected()) {
+                    zanrovi.add(new Zanr(1, "horor"));
+                }
+                if (akcija.isSelected()) {
+                    zanrovi.add(new Zanr(2, "akcija"));
+                   
+                }
+                if (triler.isSelected()) {
+                    zanrovi.add(new Zanr(3, "triler"));
+                }
+                System.out.println(zanrovi);
+                boolean odgovor = MenadzerServis.dodajFilm(1, new Zaposleni(id), nazivFilmaField.getText(), Integer.parseInt(trajanjeFilmaField.getText()), opisFilmaArea.getText(), trejlerFilmaField.getText(), tipFilma.getSelectionModel().getSelectedItem(), zanrovi);
+                if (odgovor) {
+                    AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Uspjesno ste dodali novi film !");
+                    setujSveNaPrazno();
+                    return;
 
+                } else {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, "", "NIste dodali film !");
+                    setujSveNaPrazno();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", "Trajanje filma mora biti broj !");
+                return;
+            }
+        }
     }
 
     @FXML
@@ -206,7 +224,7 @@ public class MenadzerController implements Initializable {
 
     @FXML
     void otkaziSaluStisak(ActionEvent event) {
-        //sve setujes u text fiels na prazno
+     setujSaluNaPrazno();
     }
 
     @FXML
@@ -214,9 +232,14 @@ public class MenadzerController implements Initializable {
         //sve setujes u text fiels na prazno
     }
 
+    private void setujSaluNaPrazno(){
+        nazivSaleField.setText("");
+       brojKolonaField.setText("");
+       brojRedovaField.setText("");
+    }
     @FXML
     void obrisiSaluStisak(ActionEvent event) {
-        //sve setujes u text fiels na prazn
+        setujSaluNaPrazno();
     }
 
     @FXML
@@ -226,25 +249,56 @@ public class MenadzerController implements Initializable {
 
     @FXML
     void sacuvajSaluStisak(ActionEvent event) {
-
+        if("".equals(nazivSaleField.getText()) || "".equals(brojKolonaField.getText()) || "".equals(brojRedovaField.getText())){
+            AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste unijeli podatke");
+            return;
+        }else{
+            try{
+                if (Integer.parseInt(brojKolonaField.getText()) < 0) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", ". ");
+                    return;
+                }
+                if (Integer.parseInt(brojRedovaField.getText()) < 0) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", ". ");
+                    return;
+                }
+                Sala sala=new Sala(1, Integer.parseInt(brojRedovaField.getText()), Integer.parseInt(brojKolonaField.getText()), null);
+                List<Sjediste> listaSjedista=new ArrayList<>();
+                for(int i=0;i<Integer.parseInt(brojRedovaField.getText());i++){
+                     for(int j=0;j<Integer.parseInt(brojKolonaField.getText());j++){
+                         listaSjedista.add(new Sjediste(1, sala, i, j));
+                     }
+                }
+                sala.setSjedista(listaSjedista);
+                boolean odgovor=MenadzerServis.dodajSalu(1, sala.getBrojVrsta(), sala.getBrojKolona(), listaSjedista);
+                if(odgovor){
+                     AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Dodata. ");
+                     setujSaluNaPrazno();
+                    return;
+                }
+            }catch(NumberFormatException e){
+                  AlertHelper.showAlert(Alert.AlertType.WARNING, "", "nije broj. ");
+                    return;
+            }
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("ID="+id);
-        listaZaposlenih = AdministratorServis.prikaziZaposlene();
-        System.out.println(listaZaposlenih);
+        System.out.println("ID=" + id);
+
         obrisiFilmButton.setVisible(false);
         obrisiSaluButton.setVisible(false);
         obrisiPonuduButton.setVisible(false);
         tipFilma.getItems().addAll("2D", "3D");
         tipFilma.getSelectionModel().selectFirst();
+        
+        //izmjeniFilmComboBox.getItems().add(e)
+
     }
 
     private Zaposleni nadjiZaposlenog(int id) {
-        System.out.println("ID u nadji="+id);
-      
-               
+        System.out.println("ID u nadji=" + id);
 
         for (DTOZaposleni menazer : listaZaposlenih) {
             System.out.println(menazer);

@@ -21,31 +21,15 @@ import multipleksadmin.AlertHelper;
  *
  * @author jelen
  */
-public class UnosArtiklaController implements Initializable {
+public class UnosOpremeController implements Initializable {
 
-    @FXML
-    private JFXTextField barKodField;
 
     @FXML
     private JFXTextField nazivField;
 
     @FXML
-    private JFXTextField kolicinaField;
-
-    @FXML
-    private JFXButton sacuvajDugme;
-
-    @FXML
-    private JFXButton nazadDugme;
-
-    @FXML
-    private JFXTextField cijenaField;
-
-    @FXML
-    private JFXComboBox<String> tipComboBox;
-    public static boolean izmjena;
-    
-
+    private JFXComboBox<String> ispravnostComboBox;
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       /*if(izmjena){
@@ -60,14 +44,7 @@ public class UnosArtiklaController implements Initializable {
 
     @FXML
     void sacuvajStisak(ActionEvent event) {
-        if("".equals(barKodField.getText()) || "".equals(nazivField.getText()) || "".equals(kolicinaField.getText())
-        || "".equals(cijenaField.getText())){
-            AlertHelper.showAlert(Alert.AlertType.ERROR, "", "Prazno");
-            return;      
-        }else{
-            
-            
-        }
+        
 
     }
 

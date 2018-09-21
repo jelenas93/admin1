@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Sjediste  implements Serializable {
     public static final long serialVersionUID=9014l;
     private Integer idSjedista;
+    
     private Sala sala;
     private Integer vrsta;
     private Integer kolona;

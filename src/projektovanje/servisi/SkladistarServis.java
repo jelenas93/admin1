@@ -16,13 +16,13 @@ public class SkladistarServis {
         
     }
     
-    public boolean dodajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena,  String tip, String barKod, Zaposleni zaposleni){
+    public static boolean dodajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena,  String tip, String barKod, Zaposleni zaposleni){
         Artikal artikal=new Artikal(idArtikla,naziv,kolicinaNaStanju,jedinicnaCijena,tip,barKod,zaposleni);
         
         DTOArtikal dtoArtikal=new DTOArtikal(artikal);
         try{
             konekcija.os.writeObject(new String("ADD_PRODUCT"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")){
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")){
                 konekcija.os.writeObject(dtoArtikal);
                  if (((String) konekcija.is.readObject()).equals("OK")) {
                     return true;
@@ -36,13 +36,13 @@ public class SkladistarServis {
         return false;
     }
     
-    public boolean azurirajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena,  String tip, String barKod, Zaposleni zaposleni){
+    public static boolean azurirajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena,  String tip, String barKod, Zaposleni zaposleni){
         Artikal artikal=new Artikal(idArtikla,naziv,kolicinaNaStanju,jedinicnaCijena,tip,barKod,zaposleni);
     
         DTOArtikal dtoArtikal=new DTOArtikal(artikal);
         try{
             konekcija.os.writeObject(new String("UPDATE_PRODUCT"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")){
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")){
                 konekcija.os.writeObject(dtoArtikal);
                  if (((String) konekcija.is.readObject()).equals("OK")) {
                     return true;

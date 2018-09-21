@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import projektovanje.dto.DTOArtikal;
 
 /**
  * FXML Controller class
@@ -55,7 +56,7 @@ public class SkladistarController implements Initializable {
 
     @FXML
     void izmjeniStisak(ActionEvent event) {
-
+        UnosArtiklaController.izmjena=true;
     }
 
     @FXML

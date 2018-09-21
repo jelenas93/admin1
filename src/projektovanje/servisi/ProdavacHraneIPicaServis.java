@@ -1,4 +1,4 @@
-package projektovanje.controller;
+package projektovanje.servisi;
 
 public class ProdavacHraneIPicaServis {
     
