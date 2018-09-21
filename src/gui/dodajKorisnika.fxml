@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="846.0" prefWidth="738.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kontroleri.DodajKorisnikaController">
+    <stylesheets>
+        <URL value="@/css/dodajkorisnika.css" />
+    </stylesheets>
+   <children>
+      <GridPane layoutX="123.0" layoutY="78.0" prefHeight="647.0" prefWidth="639.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Ime:">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label text="Prezime" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label text="Email:" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label text="Korisnicko ime:" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label text="Lozinka:" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="imeField" alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="prezimeField" alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="emailField" alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="korisnickoImeField" alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="lozinkaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="sacuvajButton" alignment="CENTER" buttonType="RAISED" onAction="#sacuvajStisak" text="Sacuvaj" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="otkaziButton" buttonType="RAISED" onAction="#otkaziStisak" text="Otkazi" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+            </JFXButton>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

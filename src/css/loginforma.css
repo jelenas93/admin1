@@ -1,0 +1,36 @@
+/*
+ * Empty Stylesheet file.
+-fx-background-color: #d32f2f;
+*/
+*{
+    dark-primary-color: #455A64; 
+    default-primary-color: #607D8B;
+    light-primary-color: #CFD8DC; 
+    text-primary-color: #FFFFFF; 
+    accent-color: #536DFE; 
+    primary-text-color: #212121;
+    secondary-text-color: #757575;
+    divider-color : #BDBDBD; 
+}
+
+.root{
+    -fx-background-color: dark-primary-color;
+    -fx-prompt-text-fill: secondary-text-color;
+    -fx-text-fill: text-primary-color;
+}
+.button{
+    -fx-background-color: default-primary-color;
+    -fx-text-fill:  text-primary-color;
+}
+
+.jfx-textField{
+    -fx-prompt-text-fill: secondary-text-color;
+    -fx-text-fill: text-primary-color;
+}
+.jfx-passField{
+    -fx-prompt-text-fill: secondary-text-color;
+    -fx-text-fill: text-primary-color;
+}
+.jfx-button{
+     -fx-text-fill:  text-primary-color;
+}
