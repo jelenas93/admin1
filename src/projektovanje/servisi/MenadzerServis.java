@@ -119,15 +119,11 @@ public class MenadzerServis {
       
         DTOFilm dtoFilm=new DTOFilm(film);
         try {
-             System.out.println(" TU sam");
             konekcija.os.writeObject(new String("ADD_MOVIE"));
             String odg=(String) konekcija.is.readObject();
             if (odg.equals("WHICHONE")) {
-                System.out.println(odg);
                 konekcija.os.writeObject(dtoFilm);
-                System.out.println("projektovanje.servisi.MenadzerServis.dodajFilm()");
                 String odgovor=(String)konekcija.is.readObject();
-                 System.out.println(odgovor);
                 if (odgovor.startsWith("OK")) {             
                     return true;
                 }

@@ -59,14 +59,29 @@ public class IzmjenaZaposlenogController implements Initializable {
     }
 
     @FXML
-    void sacuvajstisak(ActionEvent event) {
-        boolean odgovor=AdministratorServis.azurirajZaposlenog(zaposleni.getZaposleni().getIdZaposlenog(),zaposleni.getZaposleni().getPlata(), imeField.getText(), prezimeField.getText(), zaposleni.getZaposleni().getJMBG(), zaposleni.getZaposleni().getAktivan(), zaposleni.getZaposleni().getNalog());
-        if(odgovor){
-              AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "Potvrda !",
+    void sacuvajstisak(ActionEvent event) throws IOException {
+        if ("".equals(imeField.getText()) || "".equals(prezimeField.getText())) {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, "Upozorenje !",
+                    "Morate unijeti podatke !");
+            return;
+        } else {
+            System.out.println("U izmjeni " + zaposleni.getZaposleni());
+            boolean odgovor = AdministratorServis.azurirajZaposlenog(zaposleni.getZaposleni().getIdZaposlenog(), zaposleni.getZaposleni().getPlata(), imeField.getText(), prezimeField.getText(), zaposleni.getZaposleni().getJMBG(), zaposleni.getZaposleni().getAktivan(), zaposleni.getZaposleni().getNalog());
+            System.out.println(odgovor);
+            if (odgovor) {
+                AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "Potvrda !",
                         "Uspjesno ste dodali novog zaposlenog !");
-        }else{
-             AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
+                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/admin.fxml"));
+                Scene korisnikScena = new Scene(korisnikView);
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(korisnikScena);
+                window.centerOnScreen();
+                window.show();
+            } else {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
                         "Greska !");
+                return;
+            }
         }
     }
 

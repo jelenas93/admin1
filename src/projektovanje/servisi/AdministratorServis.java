@@ -36,11 +36,9 @@ public class AdministratorServis {
 
     public static ArrayList<DTOZaposleni> prikaziZaposlene() {
         ArrayList<DTOZaposleni> listaZaposlenih = new ArrayList<>();
-        System.out.println("1");
         try {
             konekcija.os.writeObject(new String("LIST_EMPLOYEES"));
             listaZaposlenih = (ArrayList<DTOZaposleni>) konekcija.is.readObject();
-            System.out.println("2");
         } catch (IOException ex) {
             Logger.getLogger(AdministratorServis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -55,9 +53,9 @@ public class AdministratorServis {
         DTOZaposleni dtoZaposleni = new DTOZaposleni(zaposleni);
         try {
             konekcija.os.writeObject(new String("UPDATE_EMPLOYEE"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoZaposleni);
-                if (((String) konekcija.is.readObject()).equals("OK")) {
+                if (((String) konekcija.is.readObject()).startsWith("OK")) {
                     return true;
                 }
             }

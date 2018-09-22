@@ -60,87 +60,82 @@ public class LoginFormaController {
             AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
                     "Unesite korisnicko ime !");
             return;
-        }
-        if (password.getText().isEmpty()) {
+        } else if (password.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
                     "Unesite lozinku !");
             return;
-        }
-        String korisnickoIme = username.getText();
-        String lozinka = password.getText();
-        int hash = lozinka.hashCode();
-        String pomocni = "" + hash;
-        String korisnik = Login.login(korisnickoIme, pomocni);
-        if (korisnik.startsWith("OK")) {
-            if (korisnik.split("#")[1].equals("ADMINISTRATOR")) {
-                AdminController.id = Integer.parseInt(korisnik.split("#")[2]);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/admin.fxml"));
+        } else {
+            String korisnickoIme = username.getText();
+            String lozinka = password.getText();
+            int hash = lozinka.hashCode();
+            String pomocni = "" + hash;
+            String korisnik = Login.login(korisnickoIme, pomocni);
+            if (korisnik.startsWith("OK")) {
+                if (korisnik.split("#")[1].equals("ADMINISTRATOR")) {
+                    AdminController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/admin.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                } else if (korisnik.split("#")[1].equals("KINOOPERATER")) {
+                    KinooperaterController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/kinooperater.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                } else if (korisnik.split("#")[1].equals("MENADZER")) {
+                    MenadzerController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    System.out.println("lOGIN ID=" + MenadzerController.id);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/menadzer.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                } else if (korisnik.split("#")[1].equals("PRODAVACHRANEIPICA")) {
+                    ProdavacHraneiPicaController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/prodavacHraneiPica.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                } else if (korisnik.split("#")[1].equals("PRODAVACKARATA")) {
+                    ProdavacKarataController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/prodavacKarata.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                } else if (korisnik.split("#")[1].equals("SKLADISTAR")) {
+                    SkladistarController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/skladistar.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                } else if (korisnik.split("#")[1].equals("RACUNOVODJA")) {
+                    RacunovodjaController.id = Integer.parseInt(korisnik.split("#")[2]);
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/racunovodja.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                }
 
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
-            } else if (korisnik.split("#")[1].equals("KINOOPERATER")) {
-                KinooperaterController.id = Integer.parseInt(korisnik.split("#")[2]);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/kinooperater.fxml"));
-
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
-            } else if (korisnik.split("#")[1].equals("MENADZER")) {
-                MenadzerController.id = Integer.parseInt(korisnik.split("#")[2]);
-                System.out.println("lOGIN ID=" + MenadzerController.id);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/menadzer.fxml"));
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
-            } else if (korisnik.split("#")[1].equals("PRODAVACHRANEIPICA")) {
-                ProdavacHraneiPicaController.id = Integer.parseInt(korisnik.split("#")[2]);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/prodavacHraneiPica.fxml"));
-
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
-            } else if (korisnik.split("#")[1].equals("PRODAVACKARATA")) {
-                ProdavacKarataController.id = Integer.parseInt(korisnik.split("#")[2]);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/prodavacKarata.fxml"));
-
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
-            } else if (korisnik.split("#")[1].equals("SKLADISTAR")) {
-                SkladistarController.id = Integer.parseInt(korisnik.split("#")[2]);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/skladistar.fxml"));
-
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
-            } else if (korisnik.split("#")[1].equals("RACUNOVODJA")) {
-                RacunovodjaController.id = Integer.parseInt(korisnik.split("#")[2]);
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/racunovodja.fxml"));
-
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
+            } else {
+                String razlog = korisnik.split("#")[1];
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", razlog);
+                return;
             }
 
-        } else {
-            String razlog = korisnik.split("#")[1];
-            AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", razlog);
         }
-
     }
 }

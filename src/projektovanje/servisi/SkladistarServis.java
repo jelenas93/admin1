@@ -11,20 +11,23 @@ import projektovanje.konekcija.KonekcijaNET;
 import projektovanje.dto.DTOArtikal;
 
 public class SkladistarServis {
-     private static final KonekcijaNET konekcija=KonekcijaNET.getInstance();
-    public SkladistarServis(){
-        
+
+    private static final KonekcijaNET konekcija = KonekcijaNET.getInstance();
+
+    public SkladistarServis() {
+
     }
-    
-    public static boolean dodajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena,  String tip, String barKod, Zaposleni zaposleni){
-        Artikal artikal=new Artikal(idArtikla,naziv,kolicinaNaStanju,jedinicnaCijena,tip,barKod,zaposleni);
-        
-        DTOArtikal dtoArtikal=new DTOArtikal(artikal);
-        try{
+
+    public static boolean dodajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena, String tip, String barKod, Zaposleni zaposleni) {
+        Artikal artikal = new Artikal(idArtikla, naziv, kolicinaNaStanju, jedinicnaCijena, tip, barKod, zaposleni);
+
+        DTOArtikal dtoArtikal = new DTOArtikal(artikal);
+        try {
             konekcija.os.writeObject(new String("ADD_PRODUCT"));
-            if (((String) konekcija.is.readObject()).equals("WHICHONE")){
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoArtikal);
-                 if (((String) konekcija.is.readObject()).equals("OK")) {
+                String odgovor = (String) konekcija.is.readObject();
+                if (odgovor.startsWith("OK")) {
                     return true;
                 }
             }
@@ -35,16 +38,16 @@ public class SkladistarServis {
         }
         return false;
     }
-    
-    public static boolean azurirajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena,  String tip, String barKod, Zaposleni zaposleni){
-        Artikal artikal=new Artikal(idArtikla,naziv,kolicinaNaStanju,jedinicnaCijena,tip,barKod,zaposleni);
-    
-        DTOArtikal dtoArtikal=new DTOArtikal(artikal);
-        try{
+
+    public static boolean azurirajArtikal(Integer idArtikla, String naziv, Integer kolicinaNaStanju, Double jedinicnaCijena, String tip, String barKod, Zaposleni zaposleni) {
+        Artikal artikal = new Artikal(idArtikla, naziv, kolicinaNaStanju, jedinicnaCijena, tip, barKod, zaposleni);
+
+        DTOArtikal dtoArtikal = new DTOArtikal(artikal);
+        try {
             konekcija.os.writeObject(new String("UPDATE_PRODUCT"));
-            if (((String) konekcija.is.readObject()).equals("WHICHONE")){
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoArtikal);
-                 if (((String) konekcija.is.readObject()).equals("OK")) {
+                if (((String) konekcija.is.readObject()).equals("OK")) {
                     return true;
                 }
             }
@@ -55,13 +58,16 @@ public class SkladistarServis {
         }
         return false;
     }
-    
-    public List<DTOArtikal> prikaziStanje(){
-      
-        ArrayList<DTOArtikal> artikli=new ArrayList<>();
-        try{
+
+    public static List<DTOArtikal> prikaziStanje() {
+
+        ArrayList<DTOArtikal> artikli = new ArrayList<>();
+        try {
+
             konekcija.os.writeObject(new String("LIST_PRODUCTS"));
-            artikli=(ArrayList<DTOArtikal>)konekcija.is.readObject();
+            System.out.println("projektovanje.servisi.SkladistarServis.prikaziStanje()");
+            artikli = (ArrayList<DTOArtikal>) konekcija.is.readObject();
+            System.out.println("vraca");
         } catch (IOException ex) {
             Logger.getLogger(SkladistarServis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -69,5 +75,5 @@ public class SkladistarServis {
         }
         return artikli;
     }
-    
+
 }

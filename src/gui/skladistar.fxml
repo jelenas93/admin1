@@ -19,11 +19,11 @@
    <children>
       <TableView fx:id="tabela" layoutX="241.0" layoutY="184.0" prefHeight="392.0" prefWidth="701.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="120.0">
         <columns>
-          <TableColumn editable="false" prefWidth="75.0" text="Bar kod" />
-          <TableColumn prefWidth="75.0" text="Naziv" />
-            <TableColumn prefWidth="75.0" text="Cijena" />
-            <TableColumn prefWidth="75.0" text="Kolicina" />
-            <TableColumn prefWidth="75.0" text="Tip" />
+          <TableColumn fx:id="barKodKolona" editable="false" prefWidth="75.0" text="Bar kod" />
+          <TableColumn fx:id="nazivKolona" prefWidth="75.0" text="Naziv" />
+            <TableColumn fx:id="cijenaKolona" prefWidth="75.0" text="Cijena" />
+            <TableColumn fx:id="koliocinaKolona" prefWidth="75.0" text="Kolicina" />
+            <TableColumn fx:id="tipKolona" prefWidth="75.0" text="Tip" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

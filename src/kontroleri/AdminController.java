@@ -46,8 +46,6 @@ public class AdminController implements Initializable {
 
     @FXML
     private TableColumn<MojZaposleni, String> pozicijaKolona;
-    
-    
 
     @FXML
     private JFXButton dodajButton;
@@ -86,18 +84,25 @@ public class AdminController implements Initializable {
 
     @FXML
     void izmjeniStisak(ActionEvent event) throws IOException {
-        MojZaposleni zaposleni = tabela.getSelectionModel().getSelectedItem();
-        List<DTOZaposleni> svi = AdministratorServis.prikaziZaposlene();
-        for (DTOZaposleni z : svi) {
-            if (z.getZaposleni().getJMBG().equals(zaposleni.getJMBG())) {
-                IzmjenaZaposlenogController.zaposleni = z;
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/izmjenaZaposlenog.fxml"));
-                Scene korisnikScena = new Scene(korisnikView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(korisnikScena);
-                window.centerOnScreen();
-                window.show();
+        ObservableList<MojZaposleni> mojZaposleni, sviSaposleni;
+        if (!tabela.getSelectionModel().getSelectedItems().toString().equals("[]")) {
+            sviSaposleni = tabela.getItems();
+            List<DTOZaposleni> svi = AdministratorServis.prikaziZaposlene();
+            for (DTOZaposleni z : svi) {
+                if (z.getZaposleni().getJMBG().equals(tabela.getSelectionModel().getSelectedItem().getJMBG())) {
+                    System.out.println("U adminu "+z.getZaposleni());
+                    IzmjenaZaposlenogController.zaposleni = z;
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/izmjenaZaposlenog.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                }
             }
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste izabrali zaposlenog za brisanje.");
+            return;
         }
 
     }
@@ -120,7 +125,6 @@ public class AdminController implements Initializable {
         if (!tabela.getSelectionModel().getSelectedItems().toString().equals("[]")) {
             sviSaposleni = tabela.getItems();
             moj = tabela.getSelectionModel().getSelectedItem();
-           // mojZaposleni.forEach(sviSaposleni::remove);
             List<DTOZaposleni> listaZaposlenih = AdministratorServis.prikaziZaposlene();
             for (DTOZaposleni zaposleni : listaZaposlenih) {
                 if (zaposleni.getZaposleni().getJMBG().equals(tabela.getSelectionModel().getSelectedItem().getJMBG())) {
@@ -146,13 +150,9 @@ public class AdminController implements Initializable {
 
     private void postaviTabelu() {
         maticniBrojKolona.setCellValueFactory(new PropertyValueFactory<>("JMBG"));
-
         imeKolona.setCellValueFactory(new PropertyValueFactory<>("ime"));
-
         prezimeKolona.setCellValueFactory(new PropertyValueFactory<>("prezime"));
-       
         pozicijaKolona.setCellValueFactory(new PropertyValueFactory<>("pozicija"));
-
         this.tabela.setItems(getMojZaposleni());
     }
 
@@ -166,7 +166,7 @@ public class AdminController implements Initializable {
 
         List<MojZaposleni> listaMoja = new ArrayList<>();
         for (DTOZaposleni zaposleni : listaZaposlenih) {
-            listaMoja.add(new MojZaposleni(zaposleni.getZaposleni().getJMBG(), zaposleni.getZaposleni().getIme(), zaposleni.getZaposleni().getPrezime(),""));
+            listaMoja.add(new MojZaposleni(zaposleni.getZaposleni().getJMBG(), zaposleni.getZaposleni().getIme(), zaposleni.getZaposleni().getPrezime(), ""));
         }
         ObservableList<MojZaposleni> listaZaPrikaz = FXCollections.observableArrayList();
         for (MojZaposleni zaposleni : listaMoja) {

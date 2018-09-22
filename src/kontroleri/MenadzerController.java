@@ -288,8 +288,8 @@ public class MenadzerController implements Initializable {
         System.out.println("ID=" + id);
 
         obrisiFilmButton.setVisible(false);
-        obrisiSaluButton.setVisible(false);
-        obrisiPonuduButton.setVisible(false);
+//        obrisiSaluButton.setVisible(false);
+//        obrisiPonuduButton.setVisible(false);
         tipFilma.getItems().addAll("2D", "3D");
         tipFilma.getSelectionModel().selectFirst();
         
