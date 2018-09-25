@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -16,6 +16,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -28,143 +30,205 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXComboBox fx:id="izmjeniFilmComboBox" layoutX="177.0" layoutY="59.0" prefHeight="50.0" prefWidth="274.0" />
-                        <GridPane prefHeight="705.0" prefWidth="489.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="511.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="80.0">
+                        <GridPane fx:id="gridPane" layoutX="509.0" layoutY="10.0" prefHeight="773.0" prefWidth="651.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="509.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="10.0">
                           <columnConstraints>
                             <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                              <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="105.0" valignment="CENTER" vgrow="ALWAYS" />
-                              <RowConstraints maxHeight="87.0" minHeight="10.0" prefHeight="37.0" valignment="CENTER" vgrow="ALWAYS" />
-                              <RowConstraints maxHeight="99.0" minHeight="0.0" prefHeight="88.0" valignment="CENTER" vgrow="ALWAYS" />
-                              <RowConstraints maxHeight="208.0" minHeight="10.0" prefHeight="208.0" valignment="CENTER" vgrow="ALWAYS" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="37.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="124.0" minHeight="10.0" prefHeight="124.0" valignment="CENTER" vgrow="ALWAYS" />
+                            <RowConstraints maxHeight="98.0" minHeight="10.0" prefHeight="48.0" valignment="CENTER" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="138.0" minHeight="10.0" prefHeight="128.0" valignment="CENTER" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="47.0" valignment="CENTER" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="117.0" minHeight="0.0" prefHeight="53.0" valignment="CENTER" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="258.0" minHeight="10.0" prefHeight="225.0" valignment="CENTER" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="66.0" valignment="CENTER" vgrow="ALWAYS" />
                           </rowConstraints>
                            <children>
-                              <Label fx:id="nazivFilmaLabel" text="Naziv fillma:">
+                              <Label fx:id="nazivFilmaLabel" text="Naziv fillma:" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <Label fx:id="opisFilmaLabel" text="Opis:" GridPane.rowIndex="1">
+                              <Label fx:id="opisFilmaLabel" text="Opis:" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <Label fx:id="tipFilmaLabel" text="Tip filma:" GridPane.rowIndex="2">
+                              <Label fx:id="tipFilmaLabel" text="Tip filma:" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <Label fx:id="trajanjeFilmaLabel" text="Trajanja filma:" GridPane.rowIndex="4">
+                              <Label fx:id="trajanjeFilmaLabel" text="Trajanje filma:" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <Label fx:id="slikaFilmaLabel" text="Slika filma:" GridPane.rowIndex="6">
+                              <Label fx:id="slikaFilmaLabel" text="Slika filma:" GridPane.rowIndex="7">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <Label fx:id="trejlerFilmaLabel" text="Trejler filma:" GridPane.rowIndex="5">
+                              <Label fx:id="trejlerFilmaLabel" text="Trejler filma:" GridPane.rowIndex="6">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                  </GridPane.margin></Label>
-                              <JFXTextField fx:id="nazivFilmaField" GridPane.columnIndex="1">
+                              <JFXButton fx:id="sacuvajFilmButton" onAction="#sacuvajFilmStisak" prefHeight="49.0" prefWidth="162.0" text="Sacuvaj" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></JFXTextField>
-                              <JFXTextField fx:id="trajanjeFilmaField" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></JFXTextField>
-                              <ImageView fx:id="slikaFilmaView" fitHeight="203.0" fitWidth="217.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </ImageView>
-                              <JFXTextField fx:id="trejlerFilmaField" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></JFXTextField>
-                              <JFXTextArea fx:id="opisFilmaArea" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></JFXTextArea>
-                              <JFXComboBox fx:id="tipFilma" prefHeight="31.0" prefWidth="105.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin></JFXComboBox>
-                              <JFXButton fx:id="sacuvajFilmButton" onAction="#sacuvajFilmStisak" prefHeight="49.0" prefWidth="162.0" text="Sacuvaj" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="120.0" top="10.0" />
                                  </GridPane.margin></JFXButton>
-                              <JFXButton fx:id="otkaziFilmButton" onAction="#otkaziFilmStisak" prefHeight="56.0" prefWidth="260.0" text="Otkazi" GridPane.rowIndex="7">
+                              <JFXButton fx:id="otkaziFilmButton" onAction="#otkaziFilmStisak" prefHeight="56.0" prefWidth="260.0" text="Otkazi" GridPane.rowIndex="8">
                                  <font>
                                     <Font size="18.0" />
                                  </font></JFXButton>
-                              <JFXButton fx:id="obrisiFilmButton" alignment="CENTER" onAction="#obrisiFilmStisak" prefHeight="49.0" prefWidth="132.0" text="Obrisi" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                              <Label text="Zanr:" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" right="120.0" top="10.0" />
-                                 </GridPane.margin></JFXButton>
-                              <Label text="Zanr" GridPane.rowIndex="3" />
-                              <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+                                 </GridPane.margin></Label>
+                              <VBox prefHeight="70.0" prefWidth="325.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label prefHeight="21.0" prefWidth="125.0" text="Dodaj film:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <JFXTextField fx:id="nazivFilmaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXTextArea fx:id="opisFilmaArea" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXTextArea>
+                              <JFXComboBox fx:id="tipFilma" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXComboBox>
+                              <JFXTextField fx:id="trajanjeFilmaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXTextField fx:id="trejlerFilmaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXTextField>
+                              <HBox GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
                                  <children>
-                                    <JFXCheckBox fx:id="akcija" text="Akcija" />
-                                    <JFXCheckBox fx:id="horor" text="Horor" />
-                                    <JFXCheckBox fx:id="triler" text="Triler" />
+                                    <ImageView fitHeight="202.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="dodajSlikuButton" alignment="CENTER" contentDisplay="CENTER" onAction="#dodajSlikuStisak" prefHeight="70.0" prefWidth="111.0" style="-fx-background-color: transparent;" text=" " textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="100.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="CAMERA" size="50" wrappingWidth="36.85714340209961" />
+                                       </graphic>
+                                    </JFXButton>
                                  </children>
-                              </VBox>
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </HBox>
                            </children>
                         </GridPane>
-                        <Label layoutX="45.0" layoutY="82.0" prefHeight="21.0" prefWidth="120.0" text="Izmjeni film:">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Label>
-                        <Label layoutX="45.0" layoutY="161.0" text="Obrisi film:">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Label>
-                        <JFXComboBox fx:id="obrisiFilmComboBox" layoutX="177.0" layoutY="136.0" prefHeight="50.0" prefWidth="274.0" />
-                        <Label layoutX="562.0" layoutY="21.0" prefHeight="21.0" prefWidth="125.0" text="Dodaj film:">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Label>
+                        <VBox layoutX="41.0" layoutY="48.0" prefHeight="605.0" prefWidth="419.0" AnchorPane.leftAnchor="41.0">
+                           <children>
+                              <HBox prefHeight="60.0">
+                                 <children>
+                                    <Label alignment="BOTTOM_LEFT" prefHeight="60.0" prefWidth="126.0" text="Izmjeni film:">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <JFXComboBox fx:id="izmjeniFilmComboBox" prefHeight="60.0" prefWidth="274.0">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXComboBox>
+                                 </children>
+                              </HBox>
+                              <Region prefHeight="81.0" prefWidth="419.0" />
+                              <JFXButton fx:id="dodajProjekcijuButton" alignment="TOP_LEFT" prefHeight="60.0" prefWidth="200.0" text="Dodaj projekciju">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton alignment="TOP_LEFT" prefHeight="60.0" prefWidth="200.0" text="Izmjeni projekciju">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton alignment="TOP_LEFT" prefHeight="60.0" prefWidth="200.0" text="Pregled projekcija">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <Region prefHeight="76.0" prefWidth="419.0" />
+                              <JFXButton alignment="TOP_LEFT" prefHeight="60.0" prefWidth="200.0" text="Dodaj repertoar">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton alignment="TOP_LEFT" prefHeight="60.0" prefWidth="200.0" text="Pregled repertoara">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton alignment="TOP_LEFT" prefHeight="60.0" text="Dodaj projekciju na repertoar">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
             </content>
@@ -240,7 +304,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane prefHeight="331.0" prefWidth="403.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="100.0">
+                        <GridPane prefHeight="470.0" prefWidth="319.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="100.0">
                           <columnConstraints>
                             <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
@@ -289,10 +353,21 @@
                                  </font></JFXButton>
                            </children>
                         </GridPane>
-                        <Label layoutX="759.0" layoutY="45.0" text="Dodaj salu:">
+                        <Label layoutX="843.0" layoutY="41.0" text="Unesite podatke o sali koju dodajete:" AnchorPane.topAnchor="50.0">
                            <font>
                               <Font size="18.0" />
                            </font></Label>
+                        <TableView fx:id="tabelaSala" layoutX="49.0" layoutY="41.0" prefHeight="710.0" prefWidth="717.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="50.0">
+                          <columns>
+                            <TableColumn fx:id="nazivSaleKolona" prefWidth="75.0" text="Naziv sale" />
+                            <TableColumn fx:id="brojRedovaKolona" prefWidth="75.0" text="Broj redova" />
+                              <TableColumn fx:id="brojKolona" prefWidth="75.0" text="Broj kolona" />
+                              <TableColumn fx:id="brojSjedistaKolona" prefWidth="75.0" text="Ukupno sjedista" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
                      </children>
                   </AnchorPane>
               </content>

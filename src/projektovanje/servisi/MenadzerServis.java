@@ -113,10 +113,23 @@ public class MenadzerServis {
         }
         return listaZaposlenih;
     }
+   
+   public static List<DTOSala> prikaziSale() {
+        List<DTOSala> listaSala = new ArrayList<>();
+        try {
+            konekcija.os.writeObject(new String("LIST_EMPLOYEES"));
+            listaSala = (ArrayList<DTOSala>) konekcija.is.readObject();
+        } catch (IOException ex) {
+            Logger.getLogger(SkladistarServis.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SkladistarServis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaSala;
+    }
     
    public static boolean dodajFilm(Integer idFilma, Zaposleni zaposleni, String naziv, Integer trajanje,  String opis, String linkTrailera, String tipFilma,  List<Zanr> zanrovi  ) {
         Film film=new Film(idFilma,zaposleni,naziv,trajanje,opis, linkTrailera,tipFilma,zanrovi);
-      
+       System.out.println(film);
         DTOFilm dtoFilm=new DTOFilm(film);
         try {
             konekcija.os.writeObject(new String("ADD_MOVIE"));
@@ -156,11 +169,11 @@ public class MenadzerServis {
         }
         return odgovor;
     }
-    public List<DTOFilm> pregledFilma(String imeFilma) {
+    public List<DTOFilm> pregledFilma() {
       
         ArrayList<DTOFilm> film = new ArrayList<>();
         try {
-            konekcija.os.writeObject(new String("GIVE_ME_MOVIE#"+imeFilma));
+            konekcija.os.writeObject(new String("GIVE_ME_MOVIE#"));
             film = (ArrayList<DTOFilm>) konekcija.is.readObject();
         } catch (IOException ex) {
             Logger.getLogger(SkladistarServis.class.getName()).log(Level.SEVERE, null, ex);

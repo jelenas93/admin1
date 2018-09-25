@@ -78,9 +78,6 @@ public class ProdavacHraneiPicaController implements Initializable {
         }
         cjenovnik.getChildren().addAll(artikal);
 
-        //  VBox.setVgrow(scrollPane, Priority.ALWAYS);
-        //scrollPane.setContent(vboxPice);
-        //lijevi.setPrefSize(300, 500);
         borderPane.setLeft(cjenovnik);
 
     }
