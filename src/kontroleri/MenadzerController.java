@@ -194,8 +194,8 @@ public class MenadzerController implements Initializable {
 
     @FXML
     void dodajSlikuStisak(ActionEvent event) {
-        System.out.println(slikaLinkField.getText());
-            slika.setImage(new Image(slikaLinkField.getText()));
+         System.out.println(/*"\""+slikaLinkField.getText()+"\""*/"http://digitalspyuk.cdnds.net/18/32/980x490/landscape-1533822689-nun-cp-001r.jpg");
+            slika.setImage(new Image(/*"\""+slikaLinkField.getText()+"\""*/"http://digitalspyuk.cdnds.net/18/32/980x490/landscape-1533822689-nun-cp-001r.jpg"));
             bfslika = SwingFXUtils.fromFXImage(slika.getImage(), null);
        
     }
