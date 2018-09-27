@@ -77,27 +77,27 @@ public class ProjekcijaController implements Initializable {
             return;
         } else {
             try {
-                LocalDate pomocno = datum.getValue();
-                for (int i = 0; i < Integer.parseInt(daniField.getText()); i++) {
-                    LocalDateTime local = LocalDateTime.of(pomocno, vrijeme.getValue());
-                    Date date = Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
-                    pomocno.plusDays(1);
-                    DTOFilm film = MenadzerController.nadjiFilm(filmComboBox.getSelectionModel().getSelectedItem());
-                    System.out.println(film.getFilm());
-                    if (film != null) {
-
+                DTOFilm film = MenadzerController.nadjiFilm(filmComboBox.getSelectionModel().getSelectedItem());
+                if (film != null) {
+                    LocalDate pomocno = datum.getValue();
+                    int brojac=0;
+                    for (int i = 0; i < Integer.parseInt(daniField.getText()); i++) {
+                        LocalDateTime local = LocalDateTime.of(pomocno, vrijeme.getValue());
+                        Date date = Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
+                        System.out.println( pomocno.plusDays(1));
+                        pomocno=pomocno.plusDays(1);
                         int idSale = Integer.parseInt(salaComboBox.getSelectionModel().getSelectedItem().split(" ")[1]);
-                        System.out.println(idSale + "jjjj");
                         DTORepertoar rep = ProdavacKarataServis.pregledTrenutongRepertoara();
-                        System.out.println(rep.getRepertoar().getIdRepertoara() + " reper");
                         boolean odg = MenadzerServis.dodajProjekcijuNaRepertoar(1, film.getFilm(), date, new Zaposleni(MenadzerController.id), rep, idSale);
                         if (odg) {
-                            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Dodata projekcija.");
+                            brojac++;
                         } else {
                             AlertHelper.showAlert(Alert.AlertType.ERROR, "", "Greska.");
                             return;
                         }
-
+                    }
+                    if(brojac==Integer.parseInt(daniField.getText())){
+                        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Dodata projekcija.");
                     }
                 }
             } catch (NumberFormatException e) {

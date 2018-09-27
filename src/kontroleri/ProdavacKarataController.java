@@ -85,6 +85,7 @@ public class ProdavacKarataController implements Initializable {
         // List<String> termin=new ArrayList<>();
         for(Projekcija projekcija: listaProjekcija){
          //   if(projekcija.getVrijeme()){
+            
                 termin.add(projekcija.getVrijeme().toString());
            // }
                    
