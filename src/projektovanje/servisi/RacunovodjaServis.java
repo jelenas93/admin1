@@ -23,16 +23,14 @@ public class RacunovodjaServis {
 
     }
 
-    public static boolean dodajPlatu(DTOZaposleni zaposleni,Integer id, Double doprinosZaPenziono, Double doprinosZaZdravstveno, Double doprinosZaDjecijuZastitu, Double doprinosZaZaposljavanje, Double stopaPoreza, Double stopaZaPenziono, Double stopaZaZdravstveno, Double stopaZaDjecijuZastitu, Double stopaZaZaposljavanje, Double netoTekuciRad, Double netoMinuliRad, Double bruto, Double porezNaPlatu, Date datumOd, Date datumDo) {
-
-        Plata plata = new Plata(id, doprinosZaPenziono, doprinosZaZdravstveno, doprinosZaDjecijuZastitu, doprinosZaZaposljavanje, stopaPoreza, stopaZaPenziono, stopaZaZdravstveno, stopaZaDjecijuZastitu, stopaZaZaposljavanje, netoTekuciRad, netoMinuliRad, bruto, porezNaPlatu, datumOd, datumDo);
+    public static boolean dodajPlatu(Plata plata, DTOZaposleni zaposleni) {
         DTOPlata dtoPlata = new DTOPlata(plata);
         zaposleni.getZaposleni().setPlata(plata);
         try {
             konekcija.os.writeObject(new String("ADD_PAYMENT"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(zaposleni);
-                if (((String) konekcija.is.readObject()).equals("OK")) {
+                if (((String) konekcija.is.readObject()).startsWith("OK")) {
                     return true;
                 }
             }
@@ -44,15 +42,13 @@ public class RacunovodjaServis {
         return false;
     }
 
-    public boolean azurirajPlatu(Integer id, Double doprinosZaPenziono, Double doprinosZaZdravstveno, Double doprinosZaDjecijuZastitu, Double doprinosZaZaposljavanje, Double stopaPoreza, Double stopaZaPenziono, Double stopaZaZdravstveno, Double stopaZaDjecijuZastitu, Double stopaZaZaposljavanje, Double netoTekuciRad, Double netoMinuliRad, Double bruto, Double porezNaPlatu, Date datumOd, Date datumDo) {
-
-        Plata plata = new Plata(id, doprinosZaPenziono, doprinosZaZdravstveno, doprinosZaDjecijuZastitu, doprinosZaZaposljavanje, stopaPoreza, stopaZaPenziono, stopaZaZdravstveno, stopaZaDjecijuZastitu, stopaZaZaposljavanje, netoTekuciRad, netoMinuliRad, bruto, porezNaPlatu, datumOd, datumDo);
+    public static boolean azurirajPlatu(Plata plata) {
         DTOPlata dtoPlata = new DTOPlata(plata);
         try {
             konekcija.os.writeObject(new String("UPDATE_PAYMENT"));
-            if (((String) konekcija.is.readObject()).equals("WICHONE")) {
+            if (((String) konekcija.is.readObject()).equals("WHICHONE")) {
                 konekcija.os.writeObject(dtoPlata);
-                if (((String) konekcija.is.readObject()).equals("OK")) {
+                if (((String) konekcija.is.readObject()).startsWith("OK")) {
                     return true;
                 }
             }
@@ -69,7 +65,7 @@ public class RacunovodjaServis {
         ArrayList<DTOZaposleni> listaPlata = new ArrayList<>();
         try {
             konekcija.os.writeObject(new String("LIST_PAYMENTS"));
-   
+
             listaPlata = (ArrayList<DTOZaposleni>) konekcija.is.readObject();
             System.out.println(listaPlata);
         } catch (IOException ex) {
@@ -80,7 +76,7 @@ public class RacunovodjaServis {
         return listaPlata;
     }
 
-   /* public boolean dodajFakturu(Integer idFakute, Zaposleni zaposleni, String brojRacina, String vrstaTransakcije, Double kolicina, String jedinicaMjere, Double cijena, String kupac, Date datum, List<? extends IOprema> kupljenaRoba) {
+    /* public boolean dodajFakturu(Integer idFakute, Zaposleni zaposleni, String brojRacina, String vrstaTransakcije, Double kolicina, String jedinicaMjere, Double cijena, String kupac, Date datum, List<? extends IOprema> kupljenaRoba) {
 
         UlaznaFaktura faktura = new UlaznaFaktura(idFakute, zaposleni, brojRacina, vrstaTransakcije, kolicina, jedinicaMjere, cijena, kupac, datum, kupljenaRoba);
         DTOUlaznaFaktura dtoFaktura = new DTOUlaznaFaktura(faktura);
@@ -119,7 +115,7 @@ public class RacunovodjaServis {
         }
         return false;
     }
-*/
+     */
     public List<DTOUlaznaFaktura> pregledajListuFaktura() {
 
         ArrayList<DTOUlaznaFaktura> listaFaktura = new ArrayList<>();

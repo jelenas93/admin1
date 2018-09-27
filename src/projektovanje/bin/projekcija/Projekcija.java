@@ -12,15 +12,42 @@ public class Projekcija implements Serializable {
     private Film film;
     private Date vrijeme;
     private Zaposleni zaposleni;
+    private Integer idRepertoara;
+    private Integer idSale;
 
     public Projekcija() {
     }
 
-    public Projekcija(Integer idProjekcije, Film film, Date vrijeme, Zaposleni zaposleni) {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    @Override
+    public String toString() {
+        return "Projekcija{" +
+                "idProjekcije=" + idProjekcije +
+                ", film=" + film +
+                ", vrijeme=" + vrijeme +
+                ", zaposleni=" + zaposleni +
+                ", sala= " + idSale +
+                '}';
+    }
+
+    public Projekcija(Integer idProjekcije, Film film, Date vrijeme, Zaposleni zaposleni,Integer idRepertoara, Integer idSale) {
         this.idProjekcije = idProjekcije;
         this.film = film;
         this.vrijeme = vrijeme;
         this.zaposleni = zaposleni;
+        this.idRepertoara = idRepertoara;
+        this.idSale = idSale;
+    }
+
+    public Integer getIdSale() {
+        return idSale;
+    }
+
+    public void setIdSale(Integer idSale) {
+        this.idSale = idSale;
     }
 
     public Integer getIdProjekcije() {
@@ -53,5 +80,13 @@ public class Projekcija implements Serializable {
 
     public void setZaposleni(Zaposleni zaposleni) {
         this.zaposleni = zaposleni;
+    }
+
+    public Integer getIdRepertoara() {
+        return idRepertoara;
+    }
+
+    public void setIdRepertoara(Integer idRepertoara) {
+        this.idRepertoara = idRepertoara;
     }
 }

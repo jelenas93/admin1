@@ -42,128 +42,134 @@ import projektovanje.servisi.AdministratorServis;
 import projektovanje.servisi.RacunovodjaServis;
 
 public class RacunovodjaController implements Initializable {
-
+    
     public static int id;
     @FXML
     private JFXButton dodajPlatuButton;
-
+    
     @FXML
     private JFXComboBox<?> zaposleniComboBox;
-
+    
     @FXML
     private TableView<MojaPlata> tabelaPlata;
-
+    
+    @FXML
+    private TableColumn<MojaPlata, String> maticniKolona;
+    
     @FXML
     private TableColumn<MojaPlata, String> imeKolona;
-
+    
     @FXML
     private TableColumn<MojaPlata, String> prezimeKolona;
-
+    
     @FXML
     private TableColumn<MojaPlata, Double> brutoKolona;
-
+    
     @FXML
-    private TableColumn<MojaPlata, Double> netoKolona;
-
+    private TableColumn<MojaPlata, Double> doprinosiKolona;
+    
     @FXML
     private TableColumn<MojaPlata, Double> plataKolona;
-
+    
     @FXML
     private JFXComboBox<String> prikaziTransakcijuComboBox;
-
+    
     @FXML
     private JFXTextArea prikazTransakcijeText;
-
+    
     @FXML
     private JFXButton dodajTransakcijuButton;
-
+    
     @FXML
     private JFXButton dodajFakturuButton;
-
+    
     @FXML
     private JFXButton azurirajFakturu;
-
+    
     @FXML
     private JFXComboBox<String> prikazFaktureComboBox;
-
+    
     @FXML
     private JFXTextArea fakturaText;
-
+    
     @FXML
     private Label datumLabel;
-
+    
     @FXML
     private Label brojRacunaLabel;
-
+    
     @FXML
     private Label vrstaTransakcijeLabel;
-
+    
     @FXML
     private Label kolicinaLabel;
-
+    
     @FXML
     private Label jedinicaMjereLabel;
-
+    
     @FXML
     private Label cijenaLabel;
-
+    
     @FXML
     private Label kupaclabel;
-
+    
     @FXML
     private Label robbaLabel;
-
+    
     @FXML
     private JFXDatePicker datumFaktuere;
-
+    
     @FXML
     private JFXTextField racunField;
-
+    
     @FXML
     private JFXComboBox<String> transakcijaComboBox;
-
+    
     @FXML
     private JFXTextField kolicinaRobeField;
-
+    
     @FXML
     private JFXTextField cijenaField;
-
+    
     @FXML
     private JFXTextField kupacField;
-
+    
     @FXML
     private JFXComboBox<String> jedinicaMjereComboBox;
-
+    
     @FXML
     private JFXButton sacuvajFakturuButton;
-
+    
+    @FXML
+    private JFXButton promjenaLozinkeButton;
+    
     @FXML
     private ScrollPane robaScrool;
     List<DTOZaposleni> bezPlate = new ArrayList<>();
-
+    
     @FXML
     void dodajFakturuStisak(ActionEvent event) {
         otkrijPodatkeFaktura();
     }
-
+    
     @FXML
     void azurirajFakturuStisak(ActionEvent event) {
         otkrijPodatkeFaktura();
     }
-
+    
     @FXML
     void sacuvajFakturuStisak(ActionEvent event) {
         sakrijPodatkeFaktura();
     }
-
+    
     @FXML
     void zaposleniIzbor(ActionEvent event) {
-
+        
     }
-
+    
     @FXML
     void dodajPlatuStisak(ActionEvent event) throws IOException {
-
+        
         List<DTOZaposleni> listaSvih = RacunovodjaServis.pregledajListuPlata();
         for (DTOZaposleni zaposleni : listaSvih) {
             if (zaposleni.getZaposleni().getPlata().getIDPlate() == 1) {
@@ -178,54 +184,58 @@ public class RacunovodjaController implements Initializable {
         window.centerOnScreen();
         window.show();
     }
-
+    
     @FXML
-    void izmjeniPlatuStisak(ActionEvent event) {
-
+    void izmjeniPlatuStisak(ActionEvent event) throws IOException {
+        if (!tabelaPlata.getSelectionModel().getSelectedItems().toString().equals("[]")) {
+            List<DTOZaposleni> svi = RacunovodjaServis.pregledajListuPlata();
+            for (DTOZaposleni z : svi) {
+                if (z.getZaposleni().getJMBG().equals(tabelaPlata.getSelectionModel().getSelectedItem().getJMBG())) {
+                    PlataController.zaposleni = z;
+                    PlataController.izmjena=true;
+                    Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/plata.fxml"));
+                    Scene korisnikScena = new Scene(korisnikView);
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(korisnikScena);
+                    window.centerOnScreen();
+                    window.show();
+                }
+            }
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste izabrali zaposlenog za izmjenu plate.");
+            return;
+        }
     }
-
+    
     @FXML
     void prikaziFakturu(ActionEvent event) {
-
+        
     }
-
-    @FXML
-    void prikazTabele(List<DTOZaposleni> listaZaposlenih) {
-        
-        ObservableList<DTOZaposleni> lista = FXCollections.observableArrayList();
-        for (DTOZaposleni zaposleni : listaZaposlenih) {
-            lista.add(zaposleni);
-        }
-
-        imeKolona.setCellValueFactory(new PropertyValueFactory<>("Ime"));
-        
-        prezimeKolona.setCellValueFactory(new PropertyValueFactory<>("Prezime"));
     
-        brutoKolona.setCellValueFactory(new PropertyValueFactory<>("Bruto"));
-       
-        netoKolona.setCellValueFactory(new PropertyValueFactory<>("Neto"));
-      
-        plataKolona.setCellValueFactory(new PropertyValueFactory<>("Plata"));
-        //tabelaPlata.getItems().add(e)
-        
-
+    @FXML
+    void prikazTabele() {
+        maticniKolona.setCellValueFactory(new PropertyValueFactory<>("JMBG"));
+        imeKolona.setCellValueFactory(new PropertyValueFactory<>("ime"));
+        prezimeKolona.setCellValueFactory(new PropertyValueFactory<>("prezime"));
+        brutoKolona.setCellValueFactory(new PropertyValueFactory<>("bruto"));
+        doprinosiKolona.setCellValueFactory(new PropertyValueFactory<>("doprinosi"));
+        plataKolona.setCellValueFactory(new PropertyValueFactory<>("neto"));
+        tabelaPlata.setItems(getMojaPlata());
     }
-
-   /*
-     public ObservableList<MojaPlata> getMojaPlata() {
+    
+    public ObservableList<MojaPlata> getMojaPlata() {
         List<DTOZaposleni> listaZaposlenihSaPlatom = RacunovodjaServis.pregledajListuPlata();
-
+        
         List<MojaPlata> listaMoja = new ArrayList<>();
         for (DTOZaposleni zaposleni : listaZaposlenihSaPlatom) {
-            double doprinosi=
-            listaMoja.add(new MojaPlata(zaposleni.getZaposleni().getIme(), zaposleni.getZaposleni().getPrezime(),doprinosi,zaposleni.getZaposleni().getPlata().getBruto(),neto);
+            listaMoja.add(new MojaPlata(zaposleni.getZaposleni().getJMBG(),zaposleni.getZaposleni().getIme(), zaposleni.getZaposleni().getPrezime(), zaposleni.getZaposleni().getPlata().getBruto(), zaposleni.getZaposleni().getPlata().getDoprinosi(), zaposleni.getZaposleni().getPlata().getIsplataRadniku()));
         }
-        ObservableList<MojZaposleni> listaZaPrikaz = FXCollections.observableArrayList();
-        for (MojZaposleni zaposleni : listaMoja) {
-            listaZaPrikaz.add(zaposleni);
+        ObservableList<MojaPlata> listaZaPrikaz = FXCollections.observableArrayList();
+        for (MojaPlata p : listaMoja) {
+            listaZaPrikaz.add(p);
         }
         return listaZaPrikaz;
-    }*/
+    }
 
     private void sakrijPodatkeFaktura() {
         fakturaText.setVisible(false);
@@ -246,9 +256,9 @@ public class RacunovodjaController implements Initializable {
         jedinicaMjereComboBox.setVisible(false);
         sacuvajFakturuButton.setVisible(false);
         robaScrool.setVisible(false);
-
+        
     }
-
+    
     private void otkrijPodatkeFaktura() {
         fakturaText.setVisible(true);
         datumLabel.setVisible(true);
@@ -269,14 +279,23 @@ public class RacunovodjaController implements Initializable {
         sacuvajFakturuButton.setVisible(true);
         robaScrool.setVisible(true);
     }
-
+    
+    @FXML
+    void promjenaLozinkeStisak(ActionEvent event) throws IOException {
+        PromjenaLozinkeController.id=this.id;
+        Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/promjenaLozinke.fxml"));
+        Scene korisnikScena = new Scene(korisnikView);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(korisnikScena);
+        window.centerOnScreen();
+        window.show();
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        prikazTabele();
         //sakrijPodatkeFaktura();
-       /* List<DTOZaposleni> listaZaposlenih=new ArrayList<>();
-        listaZaposlenih = RacunovodjaServis.pregledajListuPlata();
-        prikazTabele(listaZaposlenih);
-        List<DTOZaposleni> listaSvih = AdministratorServis.prikaziZaposlene();*/
+       
     }
-
+    
 }

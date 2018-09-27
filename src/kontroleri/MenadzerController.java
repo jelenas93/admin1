@@ -6,24 +6,39 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import multipleksadmin.AlertHelper;
 import multipleksadmin.MojZaposleni;
 import multipleksadmin.MojaSala;
@@ -48,22 +63,16 @@ public class MenadzerController implements Initializable {
 
     //Film
     @FXML
-    private Label nazivFilmaLabel, opisFilmaLabel, tipFilmaLabel, trajanjeFilmaLabel, slikaFilmaLabel, trejlerFilmaLabel;
-
-    @FXML
-    private JFXButton dodajFilmButton;
-
-    @FXML
     private JFXComboBox<String> izmjeniFilmComboBox;
 
     @FXML
-    private JFXComboBox<String> obrisiFilmComboBox;
+    private ScrollPane scroll;
 
     @FXML
-    private ImageView slikaFilmaView;
+    private JFXButton izmjeniFilmButton, dodajSlikuButton;
 
     @FXML
-    private JFXTextField trejlerFilmaField, trajanjeFilmaField, nazivFilmaField;
+    private JFXTextField trejlerFilmaField, trajanjeFilmaField, nazivFilmaField, slikaLinkField;
 
     @FXML
     private JFXTextArea opisFilmaArea;
@@ -77,6 +86,20 @@ public class MenadzerController implements Initializable {
     @FXML
     private JFXButton otkaziFilmButton;
 
+    @FXML
+    private JFXButton dodajProjekcijuButton;
+
+    @FXML
+    private JFXButton izmjeniProjekcijuButton;
+
+    @FXML
+    private JFXButton pregledProjekcijaButton;
+
+    @FXML
+    private JFXButton kreirajRepertoarButton;
+
+    @FXML
+    private JFXButton pregledRepertoaraButton;
 
     //Sala
     @FXML
@@ -108,6 +131,9 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private TableColumn<MojaSala, Integer> brojSjedistaKolona;
+
+    @FXML
+    private ImageView slika;
     //Ponuda
 
     @FXML
@@ -141,6 +167,52 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private JFXCheckBox zanr[];
+
+    @FXML
+    private BufferedImage bfslika;
+    private byte[] slikaUbajtovima;
+
+    @FXML
+    void dodajProjekcijuStisak(ActionEvent event) throws IOException {
+        Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/projekcija.fxml"));
+        Scene korisnikScena = new Scene(korisnikView);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(korisnikScena);
+        window.centerOnScreen();
+        window.show();
+    }
+
+    @FXML
+    void kreirajRepertoarStisak(ActionEvent event) throws IOException {
+        Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/kreirajRepertoar.fxml"));
+        Scene korisnikScena = new Scene(korisnikView);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(korisnikScena);
+        window.centerOnScreen();
+        window.show();
+    }
+
+    @FXML
+    void dodajSlikuStisak(ActionEvent event) {
+            slika.setImage(new Image("https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg"));
+            bfslika = SwingFXUtils.fromFXImage(slika.getImage(), null);
+       
+    }
+
+    @FXML
+    void izmjeniProjekcijuStisak(ActionEvent event) {
+
+    }
+
+    @FXML
+    void pregledProjekcijeStisak(ActionEvent event) {
+
+    }
+
+    @FXML
+    void pregledrepertoaraStisak(ActionEvent event) {
+
+    }
 
     private void postaviSalaTabelu() {
         nazivSaleKolona.setCellValueFactory(new PropertyValueFactory<>("naziv"));
@@ -177,7 +249,7 @@ public class MenadzerController implements Initializable {
             return;
         }
         if ("".equals(nazivFilmaField.getText()) || "".equals(opisFilmaArea.getText())
-                || "".equals(trejlerFilmaField.getText()) || "".equals(trajanjeFilmaField.getText())) {
+                || "".equals(trejlerFilmaField.getText()) || "".equals(trajanjeFilmaField.getText()) || "".equals(slikaLinkField.getText())) {
             AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste unijeli sve podatke. ");
             return;
         } else {
@@ -187,12 +259,15 @@ public class MenadzerController implements Initializable {
                     return;
                 }
                 List<Zanr> zanrovi = new ArrayList<>();
+                System.out.println(zanr.length);
                 for (int i = 0; i < zanr.length; i++) {
                     if (zanr[i].isSelected()) {
+                        System.out.println(zanr[i].isSelected());
                         zanrovi.add(new Zanr(1, zanr[i].getText()));
                     }
                 }
-                boolean odgovor = MenadzerServis.dodajFilm(1, new Zaposleni(id), nazivFilmaField.getText(), Integer.parseInt(trajanjeFilmaField.getText()), opisFilmaArea.getText(), trejlerFilmaField.getText(), tipFilma.getSelectionModel().getSelectedItem(), zanrovi);
+               // System.out.println(zanrovi);
+                boolean odgovor = MenadzerServis.dodajFilm(1, new Zaposleni(id), nazivFilmaField.getText(), Integer.parseInt(trajanjeFilmaField.getText()), opisFilmaArea.getText(), trejlerFilmaField.getText(), tipFilma.getSelectionModel().getSelectedItem(), zanrovi, slikaLinkField.getText());
                 if (odgovor) {
                     AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Uspjesno ste dodali novi film !");
                     setujSveNaPrazno();
@@ -248,6 +323,33 @@ public class MenadzerController implements Initializable {
     }
 
     @FXML
+    void izmjeniFilmStisak(ActionEvent event) {
+        System.out.println("kontroleri.MenadzerController.izmjeniFilmStisak()");
+        if (izmjeniFilmComboBox.getSelectionModel().getSelectedIndex() == -1) {
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, "", "Niste izabrali film.");
+            return;
+        } else {
+            DTOFilm film = nadjiFilm(izmjeniFilmComboBox.getSelectionModel().getSelectedItem());
+            if (film != null) {
+                List<Zanr> listaZanrova = film.getFilm().getZanrovi();
+                nazivFilmaField.setText(film.getFilm().getNaziv());
+                tipFilma.getSelectionModel().select(film.getFilm().getTipFilma());
+                opisFilmaArea.setText(film.getFilm().getOpis());
+                trejlerFilmaField.setText(film.getFilm().getLinkTrailera());
+                trajanjeFilmaField.setText(film.getFilm().getTrajanje().toString());
+                for (JFXCheckBox z : zanr) {
+                    for (Zanr fz : listaZanrova) {
+                        if (z.getText().equals(fz.getNazivZanra())) {
+                            z.setSelected(true);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    @FXML
     void sacuvajSaluStisak(ActionEvent event) {
         if ("".equals(nazivSaleField.getText()) || "".equals(brojKolonaField.getText()) || "".equals(brojRedovaField.getText())) {
             AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste unijeli podatke");
@@ -289,9 +391,12 @@ public class MenadzerController implements Initializable {
         tipFilma.getItems().addAll("2D", "3D");
         tipFilma.getSelectionModel().selectFirst();
         dodajZanrove();
-        
+        List<DTOFilm> filmovi = MenadzerServis.pregledFilma();
+        for (DTOFilm film : filmovi) {
+            izmjeniFilmComboBox.getItems().add(film.getFilm().getNaziv());
+        }
         //trebam dodati filmove pa onda projekcije
-        
+
     }
 
     private Zaposleni nadjiZaposlenog(int id) {
@@ -308,29 +413,28 @@ public class MenadzerController implements Initializable {
     }
 
     private void dodajZanrove() {
-        HBox hbox = new HBox();
         VBox vBox1 = new VBox();
-        VBox vBox2 = new VBox();
-        VBox vBox3 = new VBox();
-
-        String listaZanrova[] = new String[]{"Akcija", "Romantika", "Drama", "Triler", "Komedija", "Horor", "Naucna fantastika", "Avantura", "Animirani", "Kriminalisticki", "Porodicni"};
+        ScrollPane s = new ScrollPane();
+        String listaZanrova[] = new String[]{"Akcija", "Romantika", "Drama", "Triler", "Komedija", "Horor", "Naucna fantastika", "Avantura", "Animirani", "Kriminalisticki", "Porodicni", "Misterija"};
         zanr = new JFXCheckBox[listaZanrova.length];
+        System.out.println(listaZanrova.length);
         for (int i = 0; i < listaZanrova.length; i++) {
             zanr[i] = new JFXCheckBox(listaZanrova[i]);
-            if (i < 4) {
-                vBox1.getChildren().add(zanr[i]);
-                vBox1.setSpacing(10);
-            } else if (i < 8) {
-                vBox2.getChildren().add(zanr[i]);
-                vBox2.setSpacing(10);
-            } else {
-                vBox3.getChildren().add(zanr[i]);
-                vBox3.setSpacing(10);
+            vBox1.getChildren().add(zanr[i]);
+            vBox1.setSpacing(10);
+        }
+        s.setContent(vBox1);
+        gridPane.add(s, 1, 4);
+
+    }
+
+    public static DTOFilm nadjiFilm(String imeFilma) {
+        List<DTOFilm> filmovi = MenadzerServis.pregledFilma();
+        for (DTOFilm film : filmovi) {
+            if (film.getFilm().getNaziv().equals(imeFilma)) {
+                return film;
             }
         }
-        hbox.getChildren().addAll(vBox1, vBox2, vBox3);
-        hbox.setSpacing(30);
-        gridPane.add(hbox, 1, 3);
-
+        return null;
     }
 }

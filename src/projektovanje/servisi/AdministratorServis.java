@@ -34,11 +34,11 @@ public class AdministratorServis {
         return odgovor;
     }
 
-    public static ArrayList<DTOZaposleni> prikaziZaposlene() {
-        ArrayList<DTOZaposleni> listaZaposlenih = new ArrayList<>();
+    public static List<List<? extends IDTO>> prikaziZaposlene() {
+        List<List<? extends IDTO>> listaZaposlenih = new ArrayList<>();
         try {
             konekcija.os.writeObject(new String("LIST_EMPLOYEES"));
-            listaZaposlenih = (ArrayList<DTOZaposleni>) konekcija.is.readObject();
+            listaZaposlenih = (List<List<? extends IDTO>>) konekcija.is.readObject();
         } catch (IOException ex) {
             Logger.getLogger(AdministratorServis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

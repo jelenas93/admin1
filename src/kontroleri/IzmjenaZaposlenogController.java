@@ -22,7 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import multipleksadmin.AlertHelper;
 import projektovanje.bin.plata.Plata;
-import projektovanje.dto.DTOZaposleni;
+import projektovanje.bin.zaposleni.Zaposleni;
 import projektovanje.servisi.AdministratorServis;
 
 /**
@@ -32,7 +32,7 @@ import projektovanje.servisi.AdministratorServis;
  */
 public class IzmjenaZaposlenogController implements Initializable {
 
-    static DTOZaposleni zaposleni;
+    static Zaposleni zaposleni;
     @FXML
     private JFXTextField imeField;
 
@@ -65,8 +65,7 @@ public class IzmjenaZaposlenogController implements Initializable {
                     "Morate unijeti podatke !");
             return;
         } else {
-            System.out.println("U izmjeni " + zaposleni.getZaposleni());
-            boolean odgovor = AdministratorServis.azurirajZaposlenog(zaposleni.getZaposleni().getIdZaposlenog(), zaposleni.getZaposleni().getPlata(), imeField.getText(), prezimeField.getText(), zaposleni.getZaposleni().getJMBG(), zaposleni.getZaposleni().getAktivan(), zaposleni.getZaposleni().getNalog());
+            boolean odgovor = AdministratorServis.azurirajZaposlenog(zaposleni.getIdZaposlenog(), zaposleni.getPlata(), imeField.getText(), prezimeField.getText(), zaposleni.getJMBG(), zaposleni.getAktivan(), zaposleni.getNalog());
             System.out.println(odgovor);
             if (odgovor) {
                 AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "Potvrda !",
@@ -87,8 +86,8 @@ public class IzmjenaZaposlenogController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        imeField.setText(zaposleni.getZaposleni().getIme());
-        prezimeField.setText(zaposleni.getZaposleni().getPrezime());
+        imeField.setText(zaposleni.getIme());
+        prezimeField.setText(zaposleni.getPrezime());
         pozicijaComboBox.getItems().addAll("Administrator", "Kinooperater", "Menadzer", "Racunovodja", "ProdavacKarata", "ProdavacHraneIPica", "Skladistar");
         pozicijaComboBox.getSelectionModel().selectFirst();
     }

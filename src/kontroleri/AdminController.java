@@ -31,6 +31,7 @@ import projektovanje.servisi.AdministratorServis;
 public class AdminController implements Initializable {
 
     public static int id;
+  
     public static DTOZaposleni zaposleni;
     @FXML
     private TableView<MojZaposleni> tabela;
@@ -84,13 +85,10 @@ public class AdminController implements Initializable {
 
     @FXML
     void izmjeniStisak(ActionEvent event) throws IOException {
-        ObservableList<MojZaposleni> mojZaposleni, sviSaposleni;
         if (!tabela.getSelectionModel().getSelectedItems().toString().equals("[]")) {
-            sviSaposleni = tabela.getItems();
-            List<DTOZaposleni> svi = AdministratorServis.prikaziZaposlene();
-            for (DTOZaposleni z : svi) {
-                if (z.getZaposleni().getJMBG().equals(tabela.getSelectionModel().getSelectedItem().getJMBG())) {
-                    System.out.println("U adminu "+z.getZaposleni());
+            List<Zaposleni> svi = vratiSveZaposlene();
+            for (Zaposleni z : svi) {
+                if (z.getJMBG().equals(tabela.getSelectionModel().getSelectedItem().getJMBG())) {
                     IzmjenaZaposlenogController.zaposleni = z;
                     Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/izmjenaZaposlenog.fxml"));
                     Scene korisnikScena = new Scene(korisnikView);
@@ -109,7 +107,7 @@ public class AdminController implements Initializable {
 
     @FXML
     void promjenaLozinkeStisak(ActionEvent event) throws IOException {
-        IzmjenaZaposlenogController.zaposleni.getZaposleni().setIdZaposlenog(id);
+        PromjenaLozinkeController.id=this.id;
         Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/promjenaLozinke.fxml"));
         Scene korisnikScena = new Scene(korisnikView);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -120,15 +118,14 @@ public class AdminController implements Initializable {
 
     @FXML
     void obrisiStisak(ActionEvent event) {
-        ObservableList<MojZaposleni> mojZaposleni, sviSaposleni;
+     ObservableList<MojZaposleni> mojZaposleni;
         MojZaposleni moj;
         if (!tabela.getSelectionModel().getSelectedItems().toString().equals("[]")) {
-            sviSaposleni = tabela.getItems();
             moj = tabela.getSelectionModel().getSelectedItem();
-            List<DTOZaposleni> listaZaposlenih = AdministratorServis.prikaziZaposlene();
-            for (DTOZaposleni zaposleni : listaZaposlenih) {
-                if (zaposleni.getZaposleni().getJMBG().equals(tabela.getSelectionModel().getSelectedItem().getJMBG())) {
-                    String odgovor = AdministratorServis.brisanjeZaposlenog(zaposleni.getZaposleni().getNalog().getKorisnickiNalog());
+            List<Zaposleni> listaZaposlenih = vratiSveZaposlene();
+            for (Zaposleni zaposleni : listaZaposlenih) {
+                if (zaposleni.getJMBG().equals(tabela.getSelectionModel().getSelectedItem().getJMBG())) {
+                    String odgovor = AdministratorServis.brisanjeZaposlenog(zaposleni.getNalog().getKorisnickiNalog());
                     if (odgovor.startsWith("OK")) {
                         tabela.getItems().remove(moj);
                         postaviTabelu();
@@ -159,11 +156,92 @@ public class AdminController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         postaviTabelu();
+        System.out.println("Admin "+id);
     }
 
-    public ObservableList<MojZaposleni> getMojZaposleni() {
-        List<DTOZaposleni> listaZaposlenih = AdministratorServis.prikaziZaposlene();
+    public static List<Zaposleni> vratiSveZaposlene(){
+        List<List<? extends IDTO>> listaZaposlenih = (List<List<? extends IDTO>>) AdministratorServis.prikaziZaposlene();
+        List<DTOAdministrator> listaAktivnihAdministratora = (List<DTOAdministrator>) listaZaposlenih.get(0);
+        List<DTOMenadzer> listaAktivnihMenadzera = (List<DTOMenadzer>) listaZaposlenih.get(1);
+        List<DTORacunovodja> listaAktivnihRacunovodja = (List<DTORacunovodja>) listaZaposlenih.get(2);
+        List<DTOSkladistar> listaAktivnihSkladistara = (List<DTOSkladistar>) listaZaposlenih.get(3);
+        List<DTOProdavacKarata> listaAktivnihProdavacaKarata = (List<DTOProdavacKarata>) listaZaposlenih.get(4);
+        List<DTOProdavacHraneIPica> listaAktivnihProdavacaHraneIPica = (List<DTOProdavacHraneIPica>) listaZaposlenih.get(5);
+        List<DTOKinooperater> listaAktivnihKinooperatera = (List<DTOKinooperater>) listaZaposlenih.get(6);
 
+        List<Zaposleni> listaMoja = new ArrayList<>();
+        for (DTOAdministrator zaposleni : listaAktivnihAdministratora) {
+            listaMoja.add(zaposleni.getAdministrator());     
+        }
+        for (DTOMenadzer zaposleni : listaAktivnihMenadzera) {
+            listaMoja.add(zaposleni.getMenadzer());
+        }
+        for (DTORacunovodja zaposleni : listaAktivnihRacunovodja) {
+            listaMoja.add(zaposleni.getRacunovodja());
+        }
+        for (DTOSkladistar zaposleni : listaAktivnihSkladistara) {
+            listaMoja.add(zaposleni.getSkladistar());
+        }
+        for (DTOProdavacKarata zaposleni : listaAktivnihProdavacaKarata) {
+            listaMoja.add(zaposleni.getProdavacKarata());
+        }
+        for (DTOProdavacHraneIPica zaposleni : listaAktivnihProdavacaHraneIPica) {
+            listaMoja.add(zaposleni.getProdavacHraneIPica());
+        }
+        for (DTOKinooperater zaposleni : listaAktivnihKinooperatera) {
+            listaMoja.add(zaposleni.getKinooperater());     
+        }
+        return listaMoja;
+    }
+   
+    public ObservableList<MojZaposleni> getMojZaposleni() {
+
+        List<List<? extends IDTO>> listaZaposlenih = (List<List<? extends IDTO>>) AdministratorServis.prikaziZaposlene();
+        List<DTOAdministrator> listaAktivnihAdministratora = (List<DTOAdministrator>) listaZaposlenih.get(0);
+        List<DTOMenadzer> listaAktivnihMenadzera = (List<DTOMenadzer>) listaZaposlenih.get(1);
+        List<DTORacunovodja> listaAktivnihRacunovodja = (List<DTORacunovodja>) listaZaposlenih.get(2);
+        List<DTOSkladistar> listaAktivnihSkladistara = (List<DTOSkladistar>) listaZaposlenih.get(3);
+        List<DTOProdavacKarata> listaAktivnihProdavacaKarata = (List<DTOProdavacKarata>) listaZaposlenih.get(4);
+        List<DTOProdavacHraneIPica> listaAktivnihProdavacaHraneIPica = (List<DTOProdavacHraneIPica>) listaZaposlenih.get(5);
+        List<DTOKinooperater> listaAktivnihKinooperatera = (List<DTOKinooperater>) listaZaposlenih.get(6);
+
+        List<MojZaposleni> listaMoja = new ArrayList<>();
+        for (DTOAdministrator zaposleni : listaAktivnihAdministratora) {
+            listaMoja.add(new MojZaposleni(zaposleni.getAdministrator().getJMBG(), zaposleni.getAdministrator().getIme(), zaposleni.getAdministrator().getPrezime(), "Administrator"));
+            
+        }
+        for (DTOMenadzer zaposleni : listaAktivnihMenadzera) {
+            listaMoja.add(new MojZaposleni(zaposleni.getMenadzer().getJMBG(), zaposleni.getMenadzer().getIme(), zaposleni.getMenadzer().getPrezime(), "Menadzer"));
+            
+        }
+        for (DTORacunovodja zaposleni : listaAktivnihRacunovodja) {
+            listaMoja.add(new MojZaposleni(zaposleni.getRacunovodja().getJMBG(), zaposleni.getRacunovodja().getIme(), zaposleni.getRacunovodja().getPrezime(), "Racunovodja"));
+            
+        }
+        for (DTOSkladistar zaposleni : listaAktivnihSkladistara) {
+            listaMoja.add(new MojZaposleni(zaposleni.getSkladistar().getJMBG(), zaposleni.getSkladistar().getIme(), zaposleni.getSkladistar().getPrezime(), "Skladistar"));
+            
+        }
+        for (DTOProdavacKarata zaposleni : listaAktivnihProdavacaKarata) {
+            listaMoja.add(new MojZaposleni(zaposleni.getProdavacKarata().getJMBG(), zaposleni.getProdavacKarata().getIme(), zaposleni.getProdavacKarata().getPrezime(), "Prodavac karata"));
+            
+        }
+        for (DTOProdavacHraneIPica zaposleni : listaAktivnihProdavacaHraneIPica) {
+            listaMoja.add(new MojZaposleni(zaposleni.getProdavacHraneIPica().getJMBG(), zaposleni.getProdavacHraneIPica().getIme(), zaposleni.getProdavacHraneIPica().getPrezime(), "Prodavac hrane i pica"));
+            
+        }
+        for (DTOKinooperater zaposleni : listaAktivnihKinooperatera) {
+            listaMoja.add(new MojZaposleni(zaposleni.getKinooperater().getJMBG(), zaposleni.getKinooperater().getIme(), zaposleni.getKinooperater().getPrezime(), "Kinooperater"));
+            
+        }
+        ObservableList<MojZaposleni> listaZaPrikaz = FXCollections.observableArrayList();
+        for (MojZaposleni zaposleni : listaMoja) {
+            listaZaPrikaz.add(zaposleni);
+        }
+        return listaZaPrikaz;
+        
+        /*  List<DTOZaposleni> listaZaposlenih = AdministratorServis.prikaziZaposlene();
+        System.out.println(listaZaposlenih);
         List<MojZaposleni> listaMoja = new ArrayList<>();
         for (DTOZaposleni zaposleni : listaZaposlenih) {
             listaMoja.add(new MojZaposleni(zaposleni.getZaposleni().getJMBG(), zaposleni.getZaposleni().getIme(), zaposleni.getZaposleni().getPrezime(), ""));
@@ -172,13 +250,13 @@ public class AdminController implements Initializable {
         for (MojZaposleni zaposleni : listaMoja) {
             listaZaPrikaz.add(zaposleni);
         }
-        return listaZaPrikaz;
+        return listaZaPrikaz;*/
     }
 
-    public static DTOZaposleni nadjiZaposlenogSaMaticnim(String maticni) {
-        List<DTOZaposleni> listaZaposlenih = AdministratorServis.prikaziZaposlene();
-        for (DTOZaposleni zaposleni : listaZaposlenih) {
-            if (zaposleni.getZaposleni().getJMBG().equals(maticni)) {
+    public static Zaposleni nadjiZaposlenogSaMaticnim(String maticni) {
+        List<Zaposleni> svi=vratiSveZaposlene();
+        for (Zaposleni zaposleni : svi) {
+            if (zaposleni.getJMBG().equals(maticni)) {
                 return zaposleni;
             }
         }

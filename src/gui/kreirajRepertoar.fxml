@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="kontroleri.KreirajRepertoarController">
+    <stylesheets>
+        <URL value="@/css/kreirajrepertoar.css" />
+    </stylesheets>
+   <children>
+      <GridPane layoutX="97.0" layoutY="76.0" prefHeight="244.0" prefWidth="409.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Datum od" />
+            <Label text="Datum do" GridPane.rowIndex="1" />
+            <JFXDatePicker fx:id="datumOd" GridPane.columnIndex="1" />
+            <JFXDatePicker fx:id="datumDo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXButton fx:id="sacuvajButton" onAction="#sacuvajStisak" text="Sacuvaj" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <JFXButton fx:id="otkaziButton" onAction="#otkaziStisak" text="Otkazi" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

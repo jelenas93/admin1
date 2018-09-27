@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import multipleksadmin.AlertHelper;
+import projektovanje.bin.zaposleni.Zaposleni;
 import projektovanje.dto.DTOZaposleni;
 import projektovanje.login.Login;
 import projektovanje.servisi.AdministratorServis;
@@ -32,7 +33,8 @@ import projektovanje.servisi.AdministratorServis;
  */
 public class PromjenaLozinkeController implements Initializable {
 
-    public static DTOZaposleni zaposleni;
+    public static int id;
+    
     @FXML
     private JFXPasswordField staraLozinka;
 
@@ -58,15 +60,22 @@ public class PromjenaLozinkeController implements Initializable {
     @FXML
     void sacuvajStisak(ActionEvent event) throws IOException {
         //[provjeriti ovo ne radi mi mozak trenutno!!!
-        List<DTOZaposleni> listaZaposlenih = AdministratorServis.prikaziZaposlene();
-        for (DTOZaposleni zaposleni : listaZaposlenih) {
-            if (zaposleni.getZaposleni().getIdZaposlenog() == this.zaposleni.getZaposleni().getIdZaposlenog()) {
+        
+        List<Zaposleni> listaZaposlenih = AdminController.vratiSveZaposlene();
+        for (Zaposleni zaposleni : listaZaposlenih) {
+            if (zaposleni.getIdZaposlenog() == this.id) {
                 if ("".equals(staraLozinka.getText()) || "".equals(novaLozinka.getText())) {
                     AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
                             "Niste unijeli podatke !");
                     return;
                 } else {
-                    //dodati da li je to ta lozinka mog korisnika
+                    System.out.println("Stara "+zaposleni.getNalog());
+                    System.out.println(staraLozinka.getText().hashCode());
+                    if(!zaposleni.getNalog().getLozinkaHash().equals(staraLozinka.getText().hashCode())){
+                         AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
+                                "Unijeli ste pogresnu lozinku !");
+                        return;
+                    }
                     if (staraLozinka.getText().equals(novaLozinka.getText())) {
                         AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
                                 "Nova lozinka ne moze biti stara lozinka !");
@@ -103,7 +112,7 @@ public class PromjenaLozinkeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        System.out.println("Promjena "+id);
     }
 
 }

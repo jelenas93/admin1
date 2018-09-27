@@ -66,10 +66,10 @@ public class UnosZaposlenogController implements Initializable {
                     "Niste unijeli podatke !");
             return;
         } else {
-            if(AdminController.nadjiZaposlenogSaMaticnim(maticniField.getText())!=null){
+          /*  if(AdminController.nadjiZaposlenogSaMaticnim(maticniField.getText())!=null){
                  AlertHelper.showAlert(Alert.AlertType.INFORMATION, "", "Zaposleni sa tim maticnim brojem vev postoji!");
                  return;
-            }
+            }*/
             int hash = lozinkaField.getText().hashCode();
             String a = "" + hash;
             String odgovor = AdministratorServis.dodajZaposlenog(imeField.getText(), prezimeField.getText(), maticniField.getText(), korisnickoImeFIeld.getText(), a, pozicijaComboBox.getSelectionModel().getSelectedItem());
