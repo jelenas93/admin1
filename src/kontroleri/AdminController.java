@@ -108,6 +108,7 @@ public class AdminController implements Initializable {
     @FXML
     void promjenaLozinkeStisak(ActionEvent event) throws IOException {
         PromjenaLozinkeController.id=this.id;
+        PromjenaLozinkeController.povratak="/gui/admin.fxml";
         Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/promjenaLozinke.fxml"));
         Scene korisnikScena = new Scene(korisnikView);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,20 +20,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import multipleksadmin.AlertHelper;
-import projektovanje.bin.zaposleni.Zaposleni;
-import projektovanje.dto.DTOZaposleni;
 import projektovanje.login.Login;
-import projektovanje.servisi.AdministratorServis;
 
-/**
- * FXML Controller class
- *
- * @author jelen
- */
+
 public class PromjenaLozinkeController implements Initializable {
 
     public static int id;
-    
+    public static String povratak;
+
     @FXML
     private JFXPasswordField staraLozinka;
 
@@ -49,7 +42,7 @@ public class PromjenaLozinkeController implements Initializable {
 
     @FXML
     void nazadStisak(ActionEvent event) throws IOException {
-        Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/admin.fxml"));
+        Parent korisnikView = FXMLLoader.load(getClass().getResource(povratak));
         Scene korisnikScena = new Scene(korisnikView);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(korisnikScena);
@@ -59,60 +52,41 @@ public class PromjenaLozinkeController implements Initializable {
 
     @FXML
     void sacuvajStisak(ActionEvent event) throws IOException {
-        //[provjeriti ovo ne radi mi mozak trenutno!!!
-        
-        List<Zaposleni> listaZaposlenih = AdminController.vratiSveZaposlene();
-        for (Zaposleni zaposleni : listaZaposlenih) {
-            if (zaposleni.getIdZaposlenog() == this.id) {
-                if ("".equals(staraLozinka.getText()) || "".equals(novaLozinka.getText())) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
-                            "Niste unijeli podatke !");
-                    return;
+        if ("".equals(staraLozinka.getText()) || "".equals(novaLozinka.getText())) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
+                    "Niste unijeli podatke !");
+            return;
+        } else {
+            if (staraLozinka.getText().equals(novaLozinka.getText())) {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
+                        "Nova lozinka ne moze biti stara lozinka !");
+                return;
+            } else {
+                int hash1 = staraLozinka.getText().hashCode();
+                int hash2 = novaLozinka.getText().hashCode();
+                String odgovor = Login.promjenaLozinke("" + hash1, "" + hash2);
+                if (odgovor.startsWith("OK")) {
+                    AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "Potvrda !",
+                            "Uspjesno ste promjenili lozinku !");
                 } else {
-                    System.out.println("Stara "+zaposleni.getNalog());
-                    System.out.println(staraLozinka.getText().hashCode());
-                    if(!zaposleni.getNalog().getLozinkaHash().equals(staraLozinka.getText().hashCode())){
-                         AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
-                                "Unijeli ste pogresnu lozinku !");
-                        return;
-                    }
-                    if (staraLozinka.getText().equals(novaLozinka.getText())) {
-                        AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
-                                "Nova lozinka ne moze biti stara lozinka !");
-                        return;
-                    } else {
-                        int hash1 = staraLozinka.getText().hashCode();
-                        int hash2 = novaLozinka.getText().hashCode();
-                        String odgovor = Login.promjenaLozinke("" + hash1, "" + hash2);
-                        if (odgovor.startsWith("OK")) {
-                            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "Potvrda !",
-                                    "Uspjesno ste promjenili lozinku !");
-                            // return;
-                        } else {
-                            AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
-                                    "Greska !");
-                        }
-                        Parent korisnikView = FXMLLoader.load(getClass().getResource("admin.fxml"));
-                        Scene korisnikScena = new Scene(korisnikView);
-                        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        window.setScene(korisnikScena);
-                        window.centerOnScreen();
-                        window.show();
-
-                    }
+                    String razlog = odgovor.split("#")[1];
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
+                            razlog);
+                    return;
                 }
-            }else{
-                 AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !",
-                                "Unijeli ste pogresnu lozinku !");
-                        return;
+                Parent korisnikView = FXMLLoader.load(getClass().getResource(povratak));
+                Scene korisnikScena = new Scene(korisnikView);
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(korisnikScena);
+                window.centerOnScreen();
+                window.show();
+
             }
         }
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Promjena "+id);
     }
 
 }

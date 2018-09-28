@@ -70,6 +70,7 @@ public class LoginFormaController {
             int hash = lozinka.hashCode();
             String pomocni = "" + hash;
             String korisnik = Login.login(korisnickoIme, pomocni);
+            System.out.println(korisnik);
             if (korisnik.startsWith("OK")) {
                 if (korisnik.split("#")[1].equals("ADMINISTRATOR")) {
                     AdminController.id = Integer.parseInt(korisnik.split("#")[2]);

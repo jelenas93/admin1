@@ -84,7 +84,7 @@ public class ProjekcijaController implements Initializable {
                     for (int i = 0; i < Integer.parseInt(daniField.getText()); i++) {
                         LocalDateTime local = LocalDateTime.of(pomocno, vrijeme.getValue());
                         Date date = Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
-                        System.out.println( pomocno.plusDays(1));
+                        System.out.println( vrijeme.getValue());
                         pomocno=pomocno.plusDays(1);
                         int idSale = Integer.parseInt(salaComboBox.getSelectionModel().getSelectedItem().split(" ")[1]);
                         DTORepertoar rep = ProdavacKarataServis.pregledTrenutongRepertoara();

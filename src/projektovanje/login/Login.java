@@ -14,7 +14,8 @@ public class Login {
     }
 
     public static String login(String username, String password) {
-        String odgovor="";
+        System.out.println(username+ " "+password);
+        String odgovor="NOK";
         try {
             konekcija.os.writeObject(new String("LOGIN#" + username + "#" + password));
             odgovor = (String) konekcija.is.readObject();
@@ -48,10 +49,10 @@ public class Login {
         try {
             konekcija.os.writeObject(new String("CHANGE_PASSWORD#"+lozinka1+"#"+Lozinka2));
             String odgovor=(String) konekcija.is.readObject();
-            if(odgovor.equals("OK")){
+            if(odgovor.startsWith("OK")){
                 return "OK";
             }else{
-                return "NOK";
+                return odgovor;
             }
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);

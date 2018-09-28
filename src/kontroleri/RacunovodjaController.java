@@ -212,6 +212,24 @@ public class RacunovodjaController implements Initializable {
         
     }
     
+    
+    @FXML
+    void sacuvajFakturustisak(ActionEvent event) {
+
+    }
+    
+    
+    @FXML
+    void dodajNaFakturuStisak(ActionEvent event) {
+
+    }
+    @FXML
+    void obrisiSaFaktureStisak(ActionEvent event) {
+
+    }
+    
+    
+    
     @FXML
     void prikazTabele() {
         maticniKolona.setCellValueFactory(new PropertyValueFactory<>("JMBG"));
@@ -283,6 +301,7 @@ public class RacunovodjaController implements Initializable {
     @FXML
     void promjenaLozinkeStisak(ActionEvent event) throws IOException {
         PromjenaLozinkeController.id=this.id;
+        PromjenaLozinkeController.povratak="/gui/racunovodja.fxml";
         Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/promjenaLozinke.fxml"));
         Scene korisnikScena = new Scene(korisnikView);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
