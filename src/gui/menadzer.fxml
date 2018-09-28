@@ -165,11 +165,6 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="pregledProjekcijaButton" alignment="TOP_LEFT" onAction="#pregledProjekcijeStisak" prefHeight="60.0" prefWidth="200.0" text="Pregled projekcija">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </JFXButton>
                               <Region prefHeight="76.0" prefWidth="419.0" />
                               <JFXButton fx:id="kreirajRepertoarButton" alignment="TOP_LEFT" onAction="#kreirajRepertoarStisak" prefHeight="60.0" prefWidth="200.0" text="Kreiraj repertoar">
                                  <font>
@@ -323,42 +318,33 @@
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BASELINE" vgrow="ALWAYS" />
                           </rowConstraints>
                            <children>
-                              <Label fx:id="nazivSaleLabel" text="Naziv sale:">
+                              <Label fx:id="brojredovaLabel" text="Broj redova:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <Label fx:id="brojredovaLabel" text="Broj redova:" GridPane.rowIndex="1">
+                              <Label fx:id="brojKolonaLabel" text="Broj kolona:" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <Label fx:id="brojKolonaLabel" text="Broj kolona:" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></Label>
-                              <JFXButton fx:id="otkaziSaluButton" onAction="#otkaziSaluStisak" text="Otkazi" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <JFXButton fx:id="otkaziSaluButton" onAction="#otkaziSaluStisak" text="Otkazi" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font></JFXButton>
-                              <JFXTextField fx:id="nazivSaleField" alignment="CENTER" GridPane.columnIndex="1">
+                              <JFXTextField fx:id="brojRedovaField" alignment="CENTER" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </GridPane.margin></JFXTextField>
-                              <JFXTextField fx:id="brojRedovaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin></JFXTextField>
-                              <JFXTextField fx:id="brojKolonaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <JFXTextField fx:id="brojKolonaField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </GridPane.margin></JFXTextField>
-                              <JFXButton fx:id="sacuvajSaluButton" onAction="#sacuvajSaluStisak" text="Sacuvaj" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <JFXButton fx:id="sacuvajSaluButton" onAction="#sacuvajSaluStisak" text="Sacuvaj" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font></JFXButton>

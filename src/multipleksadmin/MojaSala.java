@@ -5,16 +5,24 @@ public class MojaSala{
     private String naziv;
     private Integer brojVrsta;
     private Integer brojKolona;
-    private int sjedista;
+    private Integer sjedista;
 
     public MojaSala() {
     }
 
-    public MojaSala(String naziv, Integer brojVrsta, Integer brojKolona, int sjedista) {
+    public MojaSala(String naziv, Integer brojVrsta, Integer brojKolona, Integer sjedista) {
         this.naziv = naziv;
         this.brojVrsta = brojVrsta;
         this.brojKolona = brojKolona;
         this.sjedista = sjedista;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
+
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
     }
 
     public int getSjedista() {

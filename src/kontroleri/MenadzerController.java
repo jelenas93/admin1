@@ -7,15 +7,11 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -27,7 +23,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,25 +30,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.imageio.ImageIO;
 import multipleksadmin.AlertHelper;
-import multipleksadmin.MojZaposleni;
 import multipleksadmin.MojaSala;
 import projektovanje.bin.film.Zanr;
 import projektovanje.bin.sala.Sala;
 import projektovanje.bin.sala.Sjediste;
 import projektovanje.bin.zaposleni.Zaposleni;
 import projektovanje.dto.DTOFilm;
-import projektovanje.dto.DTOMenadzer;
 import projektovanje.dto.DTOPonuda;
 import projektovanje.dto.DTOSala;
-import projektovanje.dto.DTOZanr;
 import projektovanje.dto.DTOZaposleni;
-import projektovanje.dto.IDTO;
-import projektovanje.servisi.AdministratorServis;
 import projektovanje.servisi.MenadzerServis;
 
 public class MenadzerController implements Initializable {
@@ -100,6 +88,9 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private JFXButton pregledRepertoaraButton;
+    
+    @FXML
+    private ImageView slika;
 
     //Sala
     @FXML
@@ -107,9 +98,6 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private JFXButton otkaziSaluButton;
-
-    @FXML
-    private JFXTextField nazivSaleField;
 
     @FXML
     private JFXTextField brojRedovaField;
@@ -132,8 +120,6 @@ public class MenadzerController implements Initializable {
     @FXML
     private TableColumn<MojaSala, Integer> brojSjedistaKolona;
 
-    @FXML
-    private ImageView slika;
     //Ponuda
 
     @FXML
@@ -170,7 +156,7 @@ public class MenadzerController implements Initializable {
 
     @FXML
     private BufferedImage bfslika;
-    private byte[] slikaUbajtovima;
+
 
     @FXML
     void dodajProjekcijuStisak(ActionEvent event) throws IOException {
@@ -194,18 +180,12 @@ public class MenadzerController implements Initializable {
 
     @FXML
     void dodajSlikuStisak(ActionEvent event) {
-        // System.out.println(slikaLinkField.getText());
             slika.setImage(new Image(slikaLinkField.getText()));
             bfslika = SwingFXUtils.fromFXImage(slika.getImage(), null);  
     }
 
     @FXML
     void izmjeniProjekcijuStisak(ActionEvent event) {
-
-    }
-
-    @FXML
-    void pregledProjekcijeStisak(ActionEvent event) {
 
     }
 
@@ -218,7 +198,7 @@ public class MenadzerController implements Initializable {
         nazivSaleKolona.setCellValueFactory(new PropertyValueFactory<>("naziv"));
         brojRedovaKolona.setCellValueFactory(new PropertyValueFactory<>("brojVrsta"));
         brojKolona.setCellValueFactory(new PropertyValueFactory<>("brojKolona"));
-        brojSjedistaKolona.setCellValueFactory(new PropertyValueFactory<>("sjediste"));
+        brojSjedistaKolona.setCellValueFactory(new PropertyValueFactory<>("sjedista"));
         tabelaSala.setItems(getMojaSala());
     }
 
@@ -227,7 +207,8 @@ public class MenadzerController implements Initializable {
 
         List<MojaSala> listaMoja = new ArrayList<>();
         for (DTOSala sala : listaSala) {
-            listaMoja.add(new MojaSala(sala.getSala().getIdSale().toString(), sala.getSala().getBrojVrsta(), sala.getSala().getBrojKolona(), sala.getSala().getBrojVrsta() * sala.getSala().getBrojKolona()));
+           //int brojSjedista=sala.getSala().getBrojKolona()*sala.getSala().getBrojVrsta();
+            listaMoja.add(new MojaSala("Sala "+sala.getSala().getIdSale().toString(), sala.getSala().getBrojVrsta(), sala.getSala().getBrojKolona(), sala.getSala().getBrojVrsta() * sala.getSala().getBrojKolona()));
         }
         ObservableList<MojaSala> listaZaPrikaz = FXCollections.observableArrayList();
         for (MojaSala sala : listaMoja) {
@@ -289,6 +270,8 @@ public class MenadzerController implements Initializable {
         opisFilmaArea.setText("");
         trejlerFilmaField.setText("");
         trajanjeFilmaField.setText("");
+        slikaLinkField.setText("");
+        
         for (JFXCheckBox zanr1 : zanr) {
             if (zanr1.isSelected()) {
                 zanr1.setSelected(false);
@@ -312,7 +295,6 @@ public class MenadzerController implements Initializable {
     }
 
     private void setujSaluNaPrazno() {
-        nazivSaleField.setText("");
         brojKolonaField.setText("");
         brojRedovaField.setText("");
     }
@@ -351,7 +333,7 @@ public class MenadzerController implements Initializable {
 
     @FXML
     void sacuvajSaluStisak(ActionEvent event) {
-        if ("".equals(nazivSaleField.getText()) || "".equals(brojKolonaField.getText()) || "".equals(brojRedovaField.getText())) {
+        if ("".equals(brojKolonaField.getText()) || "".equals(brojRedovaField.getText())) {
             AlertHelper.showAlert(Alert.AlertType.WARNING, "", "Niste unijeli podatke");
             return;
         } else {
@@ -387,7 +369,7 @@ public class MenadzerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //  postaviSalaTabelu();
+        postaviSalaTabelu();
         tipFilma.getItems().addAll("2D", "3D");
         tipFilma.getSelectionModel().selectFirst();
         dodajZanrove();

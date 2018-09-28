@@ -90,13 +90,13 @@ public class PlataController implements Initializable {
                         novi = z;
                     }
                 }
-
                 boolean odgovor = RacunovodjaServis.dodajPlatu(plata, novi);
                 if (odgovor) {
                     AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Potvrda !",
                             "Uspjesno ste dodali platu !");
                 } else {
                     AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", "Greska!");
+                    return;
                 }
                 Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/racunovodja.fxml"));
                 Scene korisnikScena = new Scene(korisnikView);
@@ -108,9 +108,10 @@ public class PlataController implements Initializable {
                  boolean odgovor = RacunovodjaServis.azurirajPlatu(plata);
                 if (odgovor) {
                     AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Potvrda !",
-                            "Uspjesno ste dodali platu !");
+                            "Uspjesno ste azurirali platu !");
                 } else {
                     AlertHelper.showAlert(Alert.AlertType.ERROR, "Greska !", "Greska!");
+                    return;
                 }
                 Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/racunovodja.fxml"));
                 Scene korisnikScena = new Scene(korisnikView);
@@ -134,7 +135,6 @@ public class PlataController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         if (!izmjena) {
             for (DTOZaposleni zaposleni : listaZaposlenih) {
                 noviZaposleniComboBox.getItems().add(zaposleni.getZaposleni().getPrezime() + ", " + zaposleni.getZaposleni().getIme());
@@ -147,18 +147,18 @@ public class PlataController implements Initializable {
             provjeraBruto();
             datumDoDate.setValue((zaposleni.getZaposleni().getPlata().getDatumDo()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             datumOdDate.setValue((zaposleni.getZaposleni().getPlata().getDatumOd()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-
         }
     }
 
-    private void provjeraBruto() {
+    private void provjeraBruto() {  
         brutoField.textProperty().addListener((observable, oldValue, newValue) -> {
+             if(!("".equals(brutoField.getText()))){
             doprinosZaDJecijuZastituField.setText(String.valueOf((Double.parseDouble(brutoField.getText())) * Plata.STOPA_ZA_DJECIJI));
             doprinosiUkupno.setText(String.valueOf((Double.parseDouble(brutoField.getText())) * Plata.STOPA_ZA_DOPRINOSE));
             doprinosZaZaposljavanjeField.setText(String.valueOf((Double.parseDouble(brutoField.getText())) * Plata.STOPA_ZA_NEZAPOSLENE));
             doprinosZaPenzionoField.setText(String.valueOf((Double.parseDouble(brutoField.getText())) * Plata.STOPA_ZA_PIO));
             doprinosZaZdavstvenoField.setText(String.valueOf((Double.parseDouble(brutoField.getText())) * Plata.STOPA_ZA_ZDRAVSTVENO));
             neto.setText(String.valueOf((Double.parseDouble(brutoField.getText())) - Double.parseDouble(doprinosiUkupno.getText())));
-        });
+             }});
     }
 }
