@@ -15,6 +15,7 @@ import projektovanje.dto.DTOIzdavanje;
 import projektovanje.konekcija.KonekcijaNET;
 import projektovanje.dto.DTOProjekcija;
 import projektovanje.dto.DTORepertoar;
+import projektovanje.dto.DTOSala;
 
 public class ProdavacKarataServis {
  private static final KonekcijaNET konekcija=KonekcijaNET.getInstance();
@@ -131,6 +132,19 @@ public class ProdavacKarataServis {
             Logger.getLogger(MenadzerServis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return repertoar;
+    }
+
+      public static List<DTOSala> prikaziSale() {
+        List<DTOSala> listaSala = new ArrayList<>();
+        try {
+            konekcija.os.writeObject(new String("LIST_MOVIE_HALL"));
+            listaSala = (ArrayList<DTOSala>) konekcija.is.readObject();
+        } catch (IOException ex) {
+            Logger.getLogger(SkladistarServis.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SkladistarServis.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaSala;
     }
 
 }

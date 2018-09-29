@@ -68,16 +68,17 @@ public class KreirajRepertoarController implements Initializable {
             if (odg) {
                 AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "", "Uspjenso ste dodali repertoar ! ");
               //  return;
-                Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/menadzer.fxml"));
+              
+            } else {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "", "Greska ! ");
+                return;
+            }
+              Parent korisnikView = FXMLLoader.load(getClass().getResource("/gui/menadzer.fxml"));
                 Scene korisnikScena = new Scene(korisnikView);
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 window.setScene(korisnikScena);
                 window.centerOnScreen();
                 window.show();
-            } else {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, "", "Greska ! ");
-                return;
-            }
 
         }
     }

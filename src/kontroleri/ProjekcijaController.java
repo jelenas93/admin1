@@ -27,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import multipleksadmin.AlertHelper;
+import projektovanje.bin.projekcija.Projekcija;
 import projektovanje.bin.repertoar.Repertoar;
 import projektovanje.bin.zaposleni.Zaposleni;
 import projektovanje.dto.DTOFilm;
@@ -83,8 +84,9 @@ public class ProjekcijaController implements Initializable {
                     int brojac=0;
                     for (int i = 0; i < Integer.parseInt(daniField.getText()); i++) {
                         LocalDateTime local = LocalDateTime.of(pomocno, vrijeme.getValue());
+                        System.out.println(local);
                         Date date = Date.from(local.atZone(ZoneId.systemDefault()).toInstant());
-                        System.out.println( vrijeme.getValue());
+                        System.out.println( date);
                         pomocno=pomocno.plusDays(1);
                         int idSale = Integer.parseInt(salaComboBox.getSelectionModel().getSelectedItem().split(" ")[1]);
                         DTORepertoar rep = ProdavacKarataServis.pregledTrenutongRepertoara();
@@ -116,6 +118,10 @@ public class ProjekcijaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+     /*   List<Projekcija> projekcija=MenadzerServis.pregledTrenutongRepertoara().getRepertoar().getProjekcija();
+        for(Projekcija p:projekcija){
+            System.out.println(p.getVrijeme());
+        }*/
         List<DTOFilm> filmovi = MenadzerServis.pregledFilma();
         for (DTOFilm film : filmovi) {
             filmComboBox.getItems().add(film.getFilm().getNaziv());
